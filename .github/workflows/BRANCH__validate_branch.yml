@@ -2,7 +2,7 @@ name: 🌿 PR이 생성 또는 업데이트될 때
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, edited]
 
 jobs:
   check-pr-branches:
@@ -11,15 +11,13 @@ jobs:
 
     steps:
       - name: ① PR 브랜치 검증
+        env:
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          # PR 기본 브랜치와 머지 브랜치 가져오기
-          PR_BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
-          PR_HEAD_BRANCH="${{ github.event.pull_request.head.ref }}"
-
-          # release 브랜치에 머지하는 경우, dev 브랜치나 hotfix 브랜치가 아니면 안된다
-          if [[ "$PR_BASE_BRANCH" == "release" ]]; then
-            if [[ "$PR_HEAD_BRANCH" != "dev" && "$PR_HEAD_BRANCH" != "hotfix" ]]; then
-              echo "⚠ dev 브랜치나 hot 브랜치만 release 브랜치에 머지할 수 있습니다."
+          if [[ "$BASE_BRANCH" == "release" ]]; then
+            if [[ "$HEAD_BRANCH" != "dev" && "$HEAD_BRANCH" != "hotfix" ]]; then
+              echo "⚠ dev 브랜치나 hotfix 브랜치만 release 브랜치에 머지할 수 있습니다."
               exit 1
             fi
           fi
