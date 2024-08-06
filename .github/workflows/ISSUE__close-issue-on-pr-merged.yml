@@ -3,6 +3,7 @@ name: PR 관련 이슈 닫기
 on:
   pull_request:
     types: [closed]
+    branches: [dev, hotfix]
 
 jobs:
   close-issues:
