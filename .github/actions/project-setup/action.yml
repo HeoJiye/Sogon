@@ -16,3 +16,4 @@ runs:
 
     - name: ③ 의존성 다운로드
       run: pnpm install
+      shell: bash
