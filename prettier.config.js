@@ -22,5 +22,4 @@ module.exports = {
   importOrder: ['^[^./(@/)]', '^(@/)', '^[./]'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
-  importOrderTypeScriptVersion: '5.0.0',
 };
