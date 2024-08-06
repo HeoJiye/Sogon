@@ -10,10 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ① 프로젝트 실행 환경 설정
+      - name: ① 레포지터리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: ② 프로젝트 실행 환경 설정
         uses: ./.github/actions/project-setup
 
-      - name: ② 프로젝트 빌드 실행
+      - name: ③ 프로젝트 빌드 실행
         run: pnpm run build
 
   unit-test:
@@ -21,8 +24,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ① 프로젝트 실행 환경 설정
+      - name: ① 레포지터리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: ② 프로젝트 실행 환경 설정
         uses: ./.github/actions/project-setup
 
-      - name: ② 단위 테스트 실행
+      - name: ③ 단위 테스트 실행
         run: pnpm run unit-test

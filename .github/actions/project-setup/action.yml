@@ -2,20 +2,17 @@ name: 🏗️ 프로젝트 실행 환경을 설정한다
 runs:
   using: 'composite'
   steps:
-    - name: ① 레포지터리 체크아웃
-      uses: actions/checkout@v4
-
-    - name: ② pnpm 다운로드
+    - name: ① pnpm 다운로드
       uses: pnpm/action-setup@v4
       with:
         version: 8
         run_install: false # 캐시를 사용하기 위해 false
 
-    - name: ③ node 설정
+    - name: ② node 설정
       uses: actions/setup-node@v4
       with:
         node-version: 18
         cache: 'pnpm' # pnpm-lock.yaml 사용해 캐시
 
-    - name: ④ 의존성 다운로드
+    - name: ③ 의존성 다운로드
       run: pnpm install
