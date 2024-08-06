@@ -1,4 +1,4 @@
-name: 🌿 PR이 머지될 때
+name: PR 관련 이슈 닫기
 
 on:
   pull_request:

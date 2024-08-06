@@ -1,4 +1,4 @@
-name: 🌿 PR이 생성 또는 업데이트될 때
+name: 브랜치 검증
 
 on:
   pull_request:
