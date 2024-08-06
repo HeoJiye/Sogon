@@ -1,0 +1,28 @@
+name: 🌿 PR이 생성 또는 업데이트될 때
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: 🏗️ 프로젝트 빌드를 해본다
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ① 프로젝트 실행 환경 설정
+        uses: ./.github/actions/project-setup
+
+      - name: ② 프로젝트 빌드 실행
+        run: pnpm run build
+
+  unit-test:
+    name: ✅ 단위 테스트를 한다
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ① 프로젝트 실행 환경 설정
+        uses: ./.github/actions/project-setup
+
+      - name: ② 단위 테스트 실행
+        run: pnpm run unit-test
