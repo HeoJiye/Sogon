@@ -2,7 +2,7 @@ name: 🌿 PR이 생성 또는 업데이트될 때
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
   check-pr-branches:
