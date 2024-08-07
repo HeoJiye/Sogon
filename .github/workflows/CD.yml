@@ -120,6 +120,8 @@ jobs:
             '.containerDefinitions[0].name = $CONTAINER_NAME' \
             task-definition.json > task-definition-updated.json
 
+          cat task-definition-updated.json
+
       - name: ⑥ ECS task 정의 생성
         id: render-web-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -134,6 +136,8 @@ jobs:
       - name: ⑦ 생성된 ECS task ARN 가져오기
         run: |
           echo '${{ steps.render-web-container.outputs.task-definition }}' > rendered-task-definition.json
+
+          cat rendered-task-definition.json
 
           TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
             --cli-input-json file://rendered-task-definition.json \
