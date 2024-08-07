@@ -85,3 +85,62 @@ jobs:
             --cluster $CLUSTER \
             --service $SERVICE \
             --force-new-deployment
+
+  depoly-pr:
+    name: 🐳 ECS 배포 (pr)
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: ① 레포지터리 체크아웃
+        uses: actions/checkout@v3
+
+      - name: ② AWS 자격 증명
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+
+      - name: ③ AWS ECR 로그인
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: ④ PR 번호 + 포트 번호 가져오기
+        run: |
+          PR_NUMBER=${{ github.event.number }}
+          OPEN_PORT=$((49152 + PR_NUMBER))
+
+          echo "IMAGE_TAG=pr-${PR_NUMBER}" >> $GITHUB_ENV
+          echo "OPEN_PORT=$OPEN_PORT" >> $GITHUB_ENV
+
+      - name: ⑤ ECS task 정의 생성
+        id: render-web-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          task-definition-family: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-task
+          container-name: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:${{ env.IMAGE_TAG }}
+          port-mappings: ${{ env.OPEN_PORT }}:3000
+          execution-role-arn: ${{ secrets.AWS_TASK_ROLE }}
+
+      - name: ⑥ 생성된 ECS task ARN 가져오기
+        run: |
+          echo '${{ steps.render-web-container.outputs.task-definition }}' > rendered-task-definition.json
+
+          TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
+            --cli-input-json file://rendered-task-definition.json \
+            | jq -r '.taskDefinition.taskDefinitionArn')
+
+          echo "TASK_DEFINITION_ARN=${TASK_DEFINITION_ARN}" >> $GITHUB_ENV
+
+      - name: ⑦ ECS task 실행하기
+        env:
+          CLUSTER: ${{ vars.AWS_ECS_CLUSTER }}
+        run: |
+          aws ecs run-task \
+            --launch-type EC2 \
+            --cluster $CLUSTER \
+            --task-definition ${{ env.TASK_DEFINITION_ARN }} \
+            --count 1

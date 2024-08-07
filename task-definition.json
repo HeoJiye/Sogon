@@ -1,0 +1,15 @@
+{
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "cpu": 256,
+      "memory": 512,
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"],
+        "startPeriod": 60
+      }
+    }
+  ],
+  "networkMode": "bridge",
+  "requiresCompatibilities": ["EC2"]
+}
