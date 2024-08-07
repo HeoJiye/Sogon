@@ -23,7 +23,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
-          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: 3️⃣ AWS ECR 로그인
         id: login-ecr
@@ -42,7 +42,7 @@ jobs:
       - name: 5️⃣ 도커 이미지 빌드 & AWS ECR 푸시
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: ${{ env.REPOSITORY }}
+          REPOSITORY: ${{ vars.REPOSITORY }}
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
