@@ -1,0 +1,49 @@
+name: CD
+
+on:
+  push:
+    branches: [dev, release]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    name: 🐳 도커 이미지 빌드 & 푸시
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1️⃣ 레포지터리 체크아웃
+        uses: actions/checkout@v3
+
+      - name: 2️⃣ AWS 자격 증명
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+
+      - name: 3️⃣ AWS ECR 로그인
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: 4️⃣ 이미지 태그 설정
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            PR_NUMBER=${{ github.event.number }}
+            echo "IMAGE_TAG=pr-${PR_NUMBER}" >> $GITHUB_ENV
+          else
+            BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+            echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
+          fi
+
+      - name: 5️⃣ 도커 이미지 빌드 & AWS ECR 푸시
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ env.REPOSITORY }}
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
