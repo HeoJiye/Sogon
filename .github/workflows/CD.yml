@@ -136,14 +136,16 @@ jobs:
           execution-role-arn: ${{ secrets.AWS_TASK_ROLE }}
 
       - name: ⑦ 생성된 ECS task ARN 가져오기
+        env:
+          TASK_DEFINITION_FILE: ${{ steps.render-web-container.outputs.task-definition }}
         run: |
-          echo '${{ steps.render-web-container.outputs.task-definition }}' > rendered-task-definition.json
-
-          cat rendered-task-definition.json
+          cat $TASK_DEFINITION_FILE
 
           TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
-            --cli-input-json file://rendered-task-definition.json \
+            --cli-input-json file://$TASK_DEFINITION_FILE \
             | jq -r '.taskDefinition.taskDefinitionArn')
+
+          echo "${TASK_DEFINITION_ARN}"
 
           echo "TASK_DEFINITION_ARN=${TASK_DEFINITION_ARN}" >> $GITHUB_ENV
 
