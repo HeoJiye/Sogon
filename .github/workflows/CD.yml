@@ -16,20 +16,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 1️⃣ 레포지터리 체크아웃
+      - name: ① 레포지터리 체크아웃
         uses: actions/checkout@v3
 
-      - name: 2️⃣ AWS 자격 증명
+      - name: ② AWS 자격 증명
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-      - name: 3️⃣ AWS ECR 로그인
+      - name: ③ AWS ECR 로그인
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: 4️⃣ 이미지 태그 설정
+      - name: ④ 이미지 태그 설정
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             PR_NUMBER=${{ github.event.number }}
@@ -39,11 +39,18 @@ jobs:
             echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
           fi
 
-      - name: 5️⃣ 도커 이미지 빌드 & AWS ECR 푸시
+      - name: ⑤ 도커 이미지 빌드
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.REPOSITORY }}
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+
+      - name: ⑥ AWS ECR 푸시
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ vars.REPOSITORY }}
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+        run: |
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
