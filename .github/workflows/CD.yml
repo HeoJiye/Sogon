@@ -114,18 +114,24 @@ jobs:
           echo "IMAGE_TAG=pr-${PR_NUMBER}" >> $GITHUB_ENV
           echo "OPEN_PORT=$OPEN_PORT" >> $GITHUB_ENV
 
-      - name: ⑤ ECS task 정의 생성
+      - name: ⑤ ECS task 정의 파일 수정
+        run: |
+          jq --arg CONTAINER_NAME "${{ env.CONTAINER_NAME }}" \
+            '.containerDefinitions[0].name = $CONTAINER_NAME' \
+            task-definition.json > task-definition-updated.json
+
+      - name: ⑥ ECS task 정의 생성
         id: render-web-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: task-definition-updated.json
           task-definition-family: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-task
           container-name: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
           image: ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:${{ env.IMAGE_TAG }}
           port-mappings: ${{ env.OPEN_PORT }}:3000
           execution-role-arn: ${{ secrets.AWS_TASK_ROLE }}
 
-      - name: ⑥ 생성된 ECS task ARN 가져오기
+      - name: ⑦ 생성된 ECS task ARN 가져오기
         run: |
           echo '${{ steps.render-web-container.outputs.task-definition }}' > rendered-task-definition.json
 
@@ -135,7 +141,7 @@ jobs:
 
           echo "TASK_DEFINITION_ARN=${TASK_DEFINITION_ARN}" >> $GITHUB_ENV
 
-      - name: ⑦ ECS task 실행하기
+      - name: ⑧ ECS task 실행하기
         env:
           CLUSTER: ${{ vars.AWS_ECS_CLUSTER }}
         run: |
