@@ -115,6 +115,8 @@ jobs:
           echo "OPEN_PORT=$OPEN_PORT" >> $GITHUB_ENV
 
       - name: ⑤ ECS task 정의 파일 수정
+        env:
+          CONTAINER_NAME: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
         run: |
           jq --arg CONTAINER_NAME "${{ env.CONTAINER_NAME }}" \
             '.containerDefinitions[0].name = $CONTAINER_NAME' \
