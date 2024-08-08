@@ -3,8 +3,6 @@ name: CD
 on:
   push:
     branches: [dev, release]
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 permissions:
   id-token: write
@@ -31,13 +29,8 @@ jobs:
 
       - name: ④ 이미지 태그 설정
         run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            PR_NUMBER=${{ github.event.number }}
-            echo "IMAGE_TAG=pr-${PR_NUMBER}" >> $GITHUB_ENV
-          else
-            BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
-            echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
-          fi
+          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+          echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
 
       - name: ⑤ 도커 이미지 빌드
         env:
@@ -56,8 +49,7 @@ jobs:
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   depoly:
-    name: 🐳 ECS 배포 (release / dev)
-    if: ${{ github.event_name == 'push' }}
+    name: 🐳 ECS 배포
     runs-on: ubuntu-latest
     needs: build
 
@@ -76,7 +68,7 @@ jobs:
           BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
-      - name: ④ ECS 배포 (release / dev)
+      - name: ④ ECS 배포
         env:
           CLUSTER: ${{ vars.AWS_ECS_CLUSTER }}
           SERVICE: ${{ vars.REPOSITORY }}-${{ env.BRANCH_NAME }}-service
