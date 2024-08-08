@@ -116,10 +116,12 @@ jobs:
 
       - name: ⑤ ECS task 정의 파일 수정
         env:
+          FAMILY: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-task
           CONTAINER_NAME: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
         run: |
-          jq --arg CONTAINER_NAME "${{ env.CONTAINER_NAME }}" \
-            '.containerDefinitions[0].name = $CONTAINER_NAME' \
+          jq --arg FAMILY "${{ env.FAMILY }}" \
+            --arg CONTAINER_NAME "${{ env.CONTAINER_NAME }}" \
+            '.family = $FAMILY | .containerDefinitions[0].name = $CONTAINER_NAME' \
             task-definition.json > task-definition-updated.json
 
           cat task-definition-updated.json
@@ -129,11 +131,11 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition-updated.json
+          task-definition-arn: ${{ secrets.AWS_TASK_ROLE }}
           task-definition-family: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-task
           container-name: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
           image: ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:${{ env.IMAGE_TAG }}
           port-mappings: ${{ env.OPEN_PORT }}:3000
-          execution-role-arn: ${{ secrets.AWS_TASK_ROLE }}
 
       - name: ⑦ 생성된 ECS task ARN 가져오기
         env:
