@@ -3,8 +3,6 @@ name: CD
 on:
   push:
     branches: [dev, release]
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 permissions:
   id-token: write
@@ -31,13 +29,8 @@ jobs:
 
       - name: ④ 이미지 태그 설정
         run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            PR_NUMBER=${{ github.event.number }}
-            echo "IMAGE_TAG=pr-${PR_NUMBER}" >> $GITHUB_ENV
-          else
-            BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
-            echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
-          fi
+          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+          echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
 
       - name: ⑤ 도커 이미지 빌드
         env:
@@ -56,8 +49,7 @@ jobs:
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   depoly:
-    name: 🐳 ECS 배포 (release / dev)
-    if: ${{ github.event_name == 'push' }}
+    name: 🐳 ECS 배포
     runs-on: ubuntu-latest
     needs: build
 
@@ -76,7 +68,7 @@ jobs:
           BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
-      - name: ④ ECS 배포 (release / dev)
+      - name: ④ ECS 배포
         env:
           CLUSTER: ${{ vars.AWS_ECS_CLUSTER }}
           SERVICE: ${{ vars.REPOSITORY }}-${{ env.BRANCH_NAME }}-service
@@ -85,78 +77,3 @@ jobs:
             --cluster $CLUSTER \
             --service $SERVICE \
             --force-new-deployment
-
-  depoly-pr:
-    name: 🐳 ECS 배포 (pr)
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: ① 레포지터리 체크아웃
-        uses: actions/checkout@v3
-
-      - name: ② AWS 자격 증명
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
-          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
-
-      - name: ③ AWS ECR 로그인
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: ④ PR 번호 + 포트 번호 가져오기
-        run: |
-          PR_NUMBER=${{ github.event.number }}
-          OPEN_PORT=$((49152 + PR_NUMBER))
-
-          echo "IMAGE_TAG=pr-${PR_NUMBER}" >> $GITHUB_ENV
-          echo "OPEN_PORT=$OPEN_PORT" >> $GITHUB_ENV
-
-      - name: ⑤ ECS task 정의 파일 수정
-        env:
-          FAMILY: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-task
-          CONTAINER_NAME: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
-        run: |
-          jq --arg FAMILY "${{ env.FAMILY }}" \
-            --arg CONTAINER_NAME "${{ env.CONTAINER_NAME }}" \
-            '.family = $FAMILY | .containerDefinitions[0].name = $CONTAINER_NAME' \
-            task-definition.json > task-definition-updated.json
-
-          cat task-definition-updated.json
-
-      - name: ⑥ ECS task 정의 생성
-        id: render-web-container
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition-updated.json
-          task-definition-arn: ${{ secrets.AWS_TASK_ROLE }}
-          task-definition-family: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-task
-          container-name: ${{ vars.REPOSITORY }}-${{ env.IMAGE_TAG }}-container
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ vars.REPOSITORY }}:${{ env.IMAGE_TAG }}
-          port-mappings: ${{ env.OPEN_PORT }}:3000
-
-      - name: ⑦ 생성된 ECS task ARN 가져오기
-        env:
-          TASK_DEFINITION_FILE: ${{ steps.render-web-container.outputs.task-definition }}
-        run: |
-          cat $TASK_DEFINITION_FILE
-
-          TASK_DEFINITION_ARN=$(aws ecs register-task-definition \
-            --cli-input-json file://$TASK_DEFINITION_FILE \
-            | jq -r '.taskDefinition.taskDefinitionArn')
-
-          echo "${TASK_DEFINITION_ARN}"
-
-          echo "TASK_DEFINITION_ARN=${TASK_DEFINITION_ARN}" >> $GITHUB_ENV
-
-      - name: ⑧ ECS task 실행하기
-        env:
-          CLUSTER: ${{ vars.AWS_ECS_CLUSTER }}
-        run: |
-          aws ecs run-task \
-            --launch-type EC2 \
-            --cluster $CLUSTER \
-            --task-definition ${{ env.TASK_DEFINITION_ARN }} \
-            --count 1
