@@ -1,5 +1,5 @@
-name-template: '$MILESTONE'
-tag-template: '$MILESTONE'
+name-template: 'v0.0.0'
+tag-template: 'v0.0.0'
 
 categories:
   - title: '✅ 기능이 추가되거나 수정되었어요!'
@@ -21,8 +21,6 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 
 template: |
-  $MILESTONE_DESCRIPTION
-
   ## Changes
 
   $CHANGES
