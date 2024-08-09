@@ -26,6 +26,7 @@ jobs:
         id: milestone
         env:
           MILESTONE: ${{ github.event.pull_request.milestone.title }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           MILESTONE_NUMBER=$(gh api repos/${{ github.repository }}/milestones --jq '.[] | select(.title=="'"$MILESTONE"'") | .number')
           MILESTONE_DESCRIPTION=$(gh api repos/${{ github.repository }}/milestones/$MILESTONE_NUMBER --jq '.description')
