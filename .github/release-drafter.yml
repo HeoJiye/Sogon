@@ -1,0 +1,28 @@
+name-template: '$MILESTONE'
+tag-template: '$MILESTONE'
+
+categories:
+  - title: '✅ 기능이 추가되거나 수정되었어요!'
+    labels: '✅ feature'
+  - title: '🎨 UI가 추가되거나 수정되었어요!'
+    labels: '🎨 design'
+  - title: '🐞 버그가 해결되었어요!'
+    label: '🐞 bug'
+  - title: '🔄 코드를 리팩토링했어요!'
+    label: '🔄 refactor'
+  - title: '🚀 성능을 개선했어요!'
+    label: '🚀 performance'
+  - title: '💻 자동화를 추가했어요!'
+    label: '💻 devops'
+  - title: '🛠 환경 설정을 추가했어요!'
+    label: '🛠 setting'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+
+template: |
+  $MILESTONE_DESCRIPTION
+
+  ## Changes
+
+  $CHANGES
