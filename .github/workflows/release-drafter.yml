@@ -22,11 +22,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: ① 마일스톤 설명 가져오기
+      - name: ① 마일스톤 정보 가져오기
         id: milestone
+        env:
+          MILESTONE: ${{ github.event.pull_request.milestone.title }}
         run: |
-          MILESTONE_TITLE=$(jq -r '.milestone.title' <<<"${{ toJson(github.event.pull_request) }}")
-          MILESTONE_NUMBER=$(gh api repos/${{ github.repository }}/milestones --jq '.[] | select(.title=="'"$MILESTONE_TITLE"'") | .number')
+          MILESTONE_NUMBER=$(gh api repos/${{ github.repository }}/milestones --jq '.[] | select(.title=="'"$MILESTONE"'") | .number')
           MILESTONE_DESCRIPTION=$(gh api repos/${{ github.repository }}/milestones/$MILESTONE_NUMBER --jq '.description')
 
           echo "MILESTONE_DESCRIPTION=$MILESTONE_DESCRIPTION" >> $GITHUB_ENV
@@ -35,5 +36,5 @@ jobs:
         uses: release-drafter/release-drafter@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MILESTONE: ${{ github.event.pull_request.milestone.title || 'undefined' }}
-          MILESTONE_DESCRIPTION: ${{ env.MILESTONE_DESCRIPTION || 'undefined' }}
+          MILESTONE: ${{ github.event.pull_request.milestone.title }}
+          MILESTONE_DESCRIPTION: ${{ env.MILESTONE_DESCRIPTION }}
