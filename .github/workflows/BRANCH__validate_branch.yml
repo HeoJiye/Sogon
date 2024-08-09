@@ -21,3 +21,21 @@ jobs:
               exit 1
             fi
           fi
+
+  check-pr-milestone:
+    name: 🔍 release 브랜치로의 PR에는 마일스톤이 할당되어야 한다
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ① PR 마일스톤 검증
+        env:
+          BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          MILESTONE_TITLE: ${{ github.event.pull_request.milestone.title }}
+        run: |
+          if [[ "$BASE_BRANCH" == "release" && HEAD_BRANCH != 'hotfix' ]]; then
+            if [ -z "$MILESTONE_TITLE" ]; then
+              echo "⚠ release 브랜치로의 PR에는 마일스톤이 필요합니다."
+              exit 1
+            fi
+          fi
