@@ -3,7 +3,8 @@ name: chromatic
 on:
   push:
     branches:
-      - '**'
+      - 'release'
+      - 'dev'
 
 jobs:
   build:
