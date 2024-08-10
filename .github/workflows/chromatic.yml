@@ -3,8 +3,7 @@ name: chromatic
 on:
   push:
     branches:
-      - 'release'
-      - 'dev'
+      - '**'
 
 jobs:
   build:
@@ -14,6 +13,8 @@ jobs:
     steps:
       - name: ① 레포지터리 체크아웃
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: ② 프로젝트 실행 환경 설정
         uses: ./.github/actions/project-setup
