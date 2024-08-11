@@ -1,4 +1,4 @@
-export type [FTName]Props = {}
+export type[FTName]Props = {};
 
 // eslint-disable-next-line no-empty-pattern
 function [FTName]({}: [FTName]Props) {
