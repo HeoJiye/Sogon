@@ -1,6 +1,3 @@
-export * from './Popover';
-export { default as Popover } from './Popover';
-
 export * from './Button';
 export { default as Button } from './Button';
 
@@ -9,3 +6,6 @@ export { default as Input } from './Input';
 
 export * from './Logo';
 export { default as Logo } from './Logo';
+
+export * from './Modal';
+export { default as Modal } from './Modal';
