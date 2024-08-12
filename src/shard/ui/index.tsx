@@ -9,3 +9,6 @@ export { default as Logo } from './Logo';
 
 export * from './Modal';
 export { default as Modal } from './Modal';
+
+export * from './Link';
+export { default as Link } from './Link';
