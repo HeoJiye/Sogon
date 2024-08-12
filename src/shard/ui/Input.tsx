@@ -1,4 +1,4 @@
-export type InputProps = {};
+export interface InputProps {}
 
 // eslint-disable-next-line no-empty-pattern
 function Input({}: InputProps) {

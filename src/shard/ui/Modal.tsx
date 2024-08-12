@@ -1,7 +1,7 @@
-export type ModalProps = {
+export interface ModalProps {
   opened?: boolean;
   children: React.ReactNode;
-};
+}
 
 // eslint-disable-next-line no-empty-pattern
 function Modal({ opened = true, children }: ModalProps) {
