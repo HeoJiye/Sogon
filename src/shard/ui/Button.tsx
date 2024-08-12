@@ -4,7 +4,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-// eslint-disable-next-line no-empty-pattern
 function Button({ children, ...props }: ButtonProps) {
   return (
     <button

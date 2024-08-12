@@ -1,12 +1,13 @@
+import Link from 'next/link';
 import { ButtonHTMLAttributes } from 'react';
 
 export interface LinkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  href?: string;
   onClick?: () => void;
   children: React.ReactNode;
 }
 
-// eslint-disable-next-line no-empty-pattern
-function LinkButton({ onClick, children, ...props }: LinkButtonProps) {
+function LinkButton({ href, onClick, children, ...props }: LinkButtonProps) {
   return (
     <button
       className='btn btn-link h-20 min-h-20 text-14 font-thin text-neutral hover:scale-105'
@@ -14,7 +15,7 @@ function LinkButton({ onClick, children, ...props }: LinkButtonProps) {
       onClick={onClick}
       {...props}
     >
-      {children}
+      {href ? <Link href={href}>{children}</Link> : children}
     </button>
   );
 }
