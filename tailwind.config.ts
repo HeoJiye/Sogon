@@ -65,6 +65,9 @@ const config: Config = {
           WebkitLineClamp: 1,
           overflow: 'hidden',
         },
+        '.debug': {
+          border: '2px solid blue',
+        },
       };
       addComponents(theme);
     },
