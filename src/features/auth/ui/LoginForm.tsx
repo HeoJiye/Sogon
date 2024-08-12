@@ -11,8 +11,8 @@ function LoginForm({}: LoginFormProps) {
         <div className='flex-center flex flex-col gap-16'>
           <form className='flex-center flex flex-col gap-36'>
             <div className='flex-center flex flex-col gap-8'>
-              <Input id='email' label='이메일' type='text' />
-              <Input id='password' label='비밀번호' type='password' />
+              <Input id='email' name='email' label='이메일' type='text' />
+              <Input id='password' name='password' label='비밀번호' type='password' />
             </div>
             <Button type='submit'>로그인</Button>
           </form>
