@@ -16,7 +16,7 @@ function LoginForm({}: LoginFormProps) {
             <Button type='submit'>로그인</Button>
           </form>
           <div className='flex-center flex flex-col gap-8'>
-            <LinkButton>회원 가입하기</LinkButton>
+            <LinkButton href='/signup'>회원 가입하기</LinkButton>
             <LinkButton>테스트 계정으로 접속하기</LinkButton>
           </div>
         </div>

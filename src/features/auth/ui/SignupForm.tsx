@@ -16,7 +16,7 @@ function SignupForm({}: SignupFormProps) {
             </div>
             <Button type='submit'>회원 가입</Button>
           </form>
-          <LinkButton>로그인하기</LinkButton>
+          <LinkButton href='/login'>로그인하기</LinkButton>
         </div>
       </div>
     </Modal>
