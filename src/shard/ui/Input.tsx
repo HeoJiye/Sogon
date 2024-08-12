@@ -15,10 +15,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ id, label, error, ...p
       <input
         id={id}
         ref={ref} // ref 전달
-        className={cn('input input-bordered h-30 w-250 text-14', { 'input-error': error })}
+        className={cn('input input-bordered mb-4 h-30 w-250 text-14', { 'input-error': error })}
         {...props} // 나머지 props 전달
       />
-      {error && <div className='text-12 text-red-500'>⚠ {error}</div>}
+      {error && <div className='text-10 text-red-500'>⚠ {error}</div>}
     </div>
   </div>
 ));
