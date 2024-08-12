@@ -8,7 +8,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 function Button({ children, ...props }: ButtonProps) {
   return (
     <button
-      className='hover:bg-neutral-focus btn btn-neutral btn-animation min-w-120 rounded-lg pl-16 pr-16'
+      className='hover:bg-neutral-focus btn btn-neutral animate-btn min-w-120 rounded-lg pl-16 pr-16'
       type='button'
       {...props}
     >

@@ -30,6 +30,15 @@ const config: Config = {
       translate: px0to2000,
       rotate: px0to2000,
       skew: px0to2000,
+      keyframes: {
+        'modal-show': {
+          '0%': { transform: 'scale(0.8)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        'modal-show': 'modal-show 0.3s ease-out forwards',
+      },
     },
   },
   plugins: [
@@ -76,7 +85,7 @@ const config: Config = {
     /* animation 관련 */
     ({ addComponents }: any) => {
       const theme = {
-        '.btn-animation': {
+        '.animate-btn': {
           transition: 'all 300ms ease-in-out',
           transform: 'translateZ(0)',
           '&:hover': {
