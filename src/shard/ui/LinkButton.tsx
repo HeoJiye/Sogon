@@ -5,7 +5,6 @@ export interface LinkButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   children: React.ReactNode;
 }
 
-// eslint-disable-next-line no-empty-pattern
 function LinkButton({ onClick, children, ...props }: LinkButtonProps) {
   return (
     <button

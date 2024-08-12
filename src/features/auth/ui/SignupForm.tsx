@@ -2,7 +2,6 @@ import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
 
 export interface SignupFormProps {}
 
-// eslint-disable-next-line no-empty-pattern
 function SignupForm({}: SignupFormProps) {
   return (
     <Modal>

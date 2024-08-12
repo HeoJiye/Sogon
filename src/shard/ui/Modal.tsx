@@ -3,7 +3,6 @@ export interface ModalProps {
   children: React.ReactNode;
 }
 
-// eslint-disable-next-line no-empty-pattern
 function Modal({ opened = true, children }: ModalProps) {
   if (!opened) {
     return null;

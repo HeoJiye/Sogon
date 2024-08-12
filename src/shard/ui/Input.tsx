@@ -5,7 +5,6 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-// eslint-disable-next-line no-empty-pattern
 function Input({ id, label, ...props }: InputProps) {
   return (
     <div className='flex-center flex text-13 text-neutral'>
