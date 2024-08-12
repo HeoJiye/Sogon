@@ -71,6 +71,9 @@ const config: Config = {
       addComponents(theme);
     },
   ],
+  daisyui: {
+    themes: ['lofi', 'black'],
+  },
 };
 
 export default config;
