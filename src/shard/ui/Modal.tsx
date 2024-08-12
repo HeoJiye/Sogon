@@ -9,7 +9,7 @@ function Modal({ opened = true, children }: ModalProps) {
     return null;
   }
   return (
-    <div className='modal modal-open'>
+    <div className='modal modal-open text-neutral'>
       <div className='modal-box relative animate-modal-show'>{children}</div>
     </div>
   );

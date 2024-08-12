@@ -6,7 +6,7 @@ export interface LinkProps {
 // eslint-disable-next-line no-empty-pattern
 function Link({ onClick, children }: LinkProps) {
   return (
-    <button className='btn btn-link font-thin hover:scale-105' type='button' onClick={onClick}>
+    <button className='btn btn-link font-thin text-neutral hover:scale-105' type='button' onClick={onClick}>
       {children}
     </button>
   );

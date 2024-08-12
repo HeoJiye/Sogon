@@ -8,7 +8,7 @@ export interface InputProps extends HTMLAttributes<HTMLInputElement> {
 // eslint-disable-next-line no-empty-pattern
 function Input({ id, label, ...props }: InputProps) {
   return (
-    <div className='flex-center flex text-14'>
+    <div className='flex-center flex text-14 text-neutral'>
       <label className='w-100 font-semibold' htmlFor={id}>
         {label}
       </label>
