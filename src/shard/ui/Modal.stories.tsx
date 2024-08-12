@@ -19,5 +19,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: { children: <div>안녕하세유</div> },
 };
