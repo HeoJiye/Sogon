@@ -12,7 +12,7 @@ function Input({ id, label, ...props }: InputProps) {
       <label className='w-100 font-semibold' htmlFor={id}>
         {label}
       </label>
-      <input id={id} className='input input-bordered w-250 text-14' {...props} />
+      <input id={id} className='input input-bordered h-30 w-250 text-14' {...props} />
     </div>
   );
 }
