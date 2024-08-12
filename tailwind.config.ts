@@ -34,6 +34,8 @@ const config: Config = {
   },
   plugins: [
     require('daisyui'),
+
+    /* layout 관련 */
     ({ addComponents }: any) => {
       const theme = {
         '.h-w-full': {
@@ -66,6 +68,25 @@ const config: Config = {
           WebkitBoxOrient: 'vertical',
           WebkitLineClamp: 1,
           overflow: 'hidden',
+        },
+      };
+      addComponents(theme);
+    },
+
+    /* animation 관련 */
+    ({ addComponents }: any) => {
+      const theme = {
+        '.btn-animation': {
+          transition: 'all 300ms ease-in-out',
+          transform: 'translateZ(0)',
+          '&:hover': {
+            transform: 'scale(1.05)',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          },
+          '&:active': {
+            transform: 'scale(0.95)',
+            opacity: '0.8',
+          },
         },
       };
       addComponents(theme);

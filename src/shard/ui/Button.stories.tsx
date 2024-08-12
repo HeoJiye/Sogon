@@ -17,5 +17,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: { children: '버튼' },
+};
+
+export const LongText: Story = {
+  args: { children: '버튼버튼버튼버튼버튼버튼버튼버튼버튼' },
 };
