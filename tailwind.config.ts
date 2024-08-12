@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import type { Config } from 'tailwindcss';
 
 const ROOT_PX = 16;
@@ -32,6 +33,7 @@ const config: Config = {
     },
   },
   plugins: [
+    require('daisyui'),
     ({ addComponents }: any) => {
       const theme = {
         '.h-w-full': {
@@ -64,9 +66,6 @@ const config: Config = {
           WebkitBoxOrient: 'vertical',
           WebkitLineClamp: 1,
           overflow: 'hidden',
-        },
-        '.debug': {
-          border: '2px solid blue',
         },
       };
       addComponents(theme);
