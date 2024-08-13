@@ -17,22 +17,28 @@ jobs:
       - name: ① 레포지터리 체크아웃
         uses: actions/checkout@v3
 
-      - name: ② AWS 자격 증명
+      - name: ② 프로젝트 환경 설정
+        uses: ./.github/actions/project-setup
+        with:
+          PROJECT_ENV: ${{ secrets.PROJECT_ENV }}
+          FIREBASE_ADMINSDK_JSON: ${{ secrets.FIREBASE_ADMINSDK_JSON }}
+
+      - name: ③ AWS 자격 증명
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
-      - name: ③ AWS ECR 로그인
+      - name: ④ AWS ECR 로그인
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: ④ 이미지 태그 설정
+      - name: ⑤ 이미지 태그 설정
         run: |
           BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
           echo "IMAGE_TAG=${BRANCH_NAME}" >> $GITHUB_ENV
 
-      - name: ⑤ 도커 이미지 빌드
+      - name: ⑥ 도커 이미지 빌드
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.REPOSITORY }}
@@ -40,7 +46,7 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
 
-      - name: ⑥ AWS ECR 푸시
+      - name: ⑦ AWS ECR 푸시
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.REPOSITORY }}
