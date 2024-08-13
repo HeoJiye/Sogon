@@ -3,8 +3,6 @@ import { z } from 'zod';
 import { ApiError, BadRequestError, InternalServerError } from '../model/errors/APIErrors';
 
 export default function handleGatewayError(error: unknown): ApiError {
-  console.error('handleGatewayError:', error);
-
   if (error instanceof z.ZodError) {
     return new BadRequestError('잘못된 입력입니다.');
   }
