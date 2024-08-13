@@ -2,6 +2,7 @@
 
 import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
 
+import { createAccount } from '../api/accountClient';
 import { useSignupForm } from '../lib';
 import type { SignupFormSchema } from '../lib';
 
@@ -10,9 +11,9 @@ export interface SignupFormProps {}
 function SignupForm({}: SignupFormProps) {
   const { register, handleSubmit, formState } = useSignupForm();
 
-  const onSubmit = (data: SignupFormSchema) => {
-    console.log('Form Data:', data);
-    // 여기에 회원가입 로직을 추가하세요.UseFormReturn
+  const onSubmit = ({ email, password }: SignupFormSchema) => {
+    createAccount({ email, password });
+    // TODO: 회원가입 결과에 따른 처리 필요
   };
 
   return (
