@@ -1,6 +1,5 @@
-import { ApiError } from 'next/dist/server/api-utils';
-
 import {
+  ApiError,
   BadRequestError,
   ConflictError,
   InternalServerError,
@@ -9,35 +8,38 @@ import {
 } from '@/shard/model/errors/APIErrors';
 import { FIREBASE_AUTH_ERRORS, type FirebaseAuthErrorCode } from '@/shard/model/errors/firebaseAuthErrors';
 
+import { API_AUTH_ERROR_MESSAGES } from '../model/constants';
+
 export function handleCreateAccountError(error: unknown): ApiError {
   if (error instanceof Error && 'code' in error) {
     const errorCode = error.code as FirebaseAuthErrorCode;
 
     switch (errorCode) {
       case FIREBASE_AUTH_ERRORS.INVALID_EMAIL:
-        return new BadRequestError('유효하지 않은 이메일입니다.');
+        return new BadRequestError(API_AUTH_ERROR_MESSAGES.INVALID_EMAIL);
 
       case FIREBASE_AUTH_ERRORS.INVALID_PASSWORD:
-        return new BadRequestError('유효하지 않은 비밀번호입니다.');
+        return new BadRequestError(API_AUTH_ERROR_MESSAGES.INVALID_PASSWORD);
 
       case FIREBASE_AUTH_ERRORS.EMAIL_ALREADY_EXISTS:
-        return new ConflictError('이 이메일은 이미 사용 중입니다.');
+        return new ConflictError(API_AUTH_ERROR_MESSAGES.EMAIL_ALREADY_EXISTS);
 
       case FIREBASE_AUTH_ERRORS.INSUFFICIENT_PERMISSION:
-        return new UnauthorizedError('서버가 요청한 리소스에 대한 권한이 없습니다.');
+        return new UnauthorizedError(API_AUTH_ERROR_MESSAGES.INSUFFICIENT_PERMISSION);
 
       case FIREBASE_AUTH_ERRORS.TOO_MANY_REQUESTS:
-        return new TooManyRequestsError('파이어베이스 서버에 요청이 너무 많습니다. 나중에 다시 시도하세요.');
+        return new TooManyRequestsError(API_AUTH_ERROR_MESSAGES.TOO_MANY_REQUESTS);
 
       case FIREBASE_AUTH_ERRORS.INTERNAL_ERROR:
-        return new InternalServerError('파이어베이스 서버 내부 오류가 발생했습니다. 나중에 다시 시도하세요.');
+        return new InternalServerError(API_AUTH_ERROR_MESSAGES.INTERNAL_ERROR);
 
       default:
+        return new InternalServerError(API_AUTH_ERROR_MESSAGES.UNKNOWN_ERROR);
     }
   }
-  return new InternalServerError('계정을 생성하는 중에 알 수 없는 오류가 발생했습니다.');
-}
 
+  return new InternalServerError(API_AUTH_ERROR_MESSAGES.UNKNOWN_ERROR);
+}
 export function handleDeleteAccountError(error: unknown): void {
   throw error;
 }
