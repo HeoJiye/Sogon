@@ -2,7 +2,8 @@
 
 import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
 
-import { LoginFormSchema, useLoginForm } from '../lib';
+import { useLoginForm } from '../lib';
+import type { LoginFormSchema } from '../lib';
 
 export interface LoginFormProps {}
 
