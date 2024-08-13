@@ -3,24 +3,18 @@
 import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
 
 import { useLoginForm } from '../lib';
-import type { LoginFormSchema } from '../lib';
 
 export interface LoginFormProps {}
 
 function LoginForm({}: LoginFormProps) {
-  const { register, handleSubmit, formState } = useLoginForm();
-
-  const onSubmit = (data: LoginFormSchema) => {
-    console.log('Form Data:', data);
-    // 여기에 회원가입 로직을 추가하세요.UseFormReturn
-  };
+  const { register, formState, onSubmit } = useLoginForm();
 
   return (
     <Modal>
       <div className='flex-center flex flex-col gap-48'>
         <Logo />
         <div className='flex-center flex flex-col gap-16'>
-          <form className='flex-center flex flex-col gap-36' onSubmit={handleSubmit(onSubmit)}>
+          <form className='flex-center flex flex-col gap-36' onSubmit={onSubmit}>
             <div className='flex-center flex flex-col gap-8'>
               <Input
                 id='email'

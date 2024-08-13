@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 
+import { signup } from '../api/authAPI';
 import { emailValidation, passwordConfirmValidation, passwordValidation } from './validate';
 
 export interface SignupFormSchema {
@@ -11,6 +12,10 @@ export interface SignupFormSchema {
 export function useSignupForm() {
   const { register, handleSubmit, watch, formState } = useForm<SignupFormSchema>();
 
+  const onSubmit = async ({ email, password }: SignupFormSchema) => {
+    await signup({ email, password });
+  };
+
   return {
     register: {
       email: register('email', emailValidation),
@@ -20,5 +25,6 @@ export function useSignupForm() {
     handleSubmit,
     watch,
     formState,
+    onSubmit: handleSubmit(onSubmit),
   };
 }

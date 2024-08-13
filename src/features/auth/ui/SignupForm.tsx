@@ -2,26 +2,19 @@
 
 import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
 
-import { createAccount } from '../api/accountClient';
 import { useSignupForm } from '../lib';
-import type { SignupFormSchema } from '../lib';
 
 export interface SignupFormProps {}
 
 function SignupForm({}: SignupFormProps) {
-  const { register, handleSubmit, formState } = useSignupForm();
-
-  const onSubmit = ({ email, password }: SignupFormSchema) => {
-    createAccount({ email, password });
-    // TODO: 회원가입 결과에 따른 처리 필요
-  };
+  const { register, formState, onSubmit } = useSignupForm();
 
   return (
     <Modal>
       <div className='flex-center flex flex-col gap-48'>
         <Logo />
         <div className='flex-center flex flex-col gap-16'>
-          <form className='flex-center flex flex-col gap-36' onSubmit={handleSubmit(onSubmit)}>
+          <form className='flex-center flex flex-col gap-36' onSubmit={onSubmit}>
             <div className='flex-center flex flex-col gap-8'>
               <Input
                 id='email'
