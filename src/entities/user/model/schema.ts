@@ -1,5 +1,7 @@
 import { FriendRequest } from '@/features/friend/model/schema';
 
+export const USER_RECORD = 'users' as const;
+
 export type User = {
   nickname?: string;
   profileImage?: string;

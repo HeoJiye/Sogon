@@ -166,3 +166,7 @@ export const FIREBASE_AUTH_ERRORS = {
 } as const;
 
 export type FirebaseAuthErrorCode = (typeof FIREBASE_AUTH_ERRORS)[keyof typeof FIREBASE_AUTH_ERRORS];
+
+export function isFirebaseAuthErrorCode(code: unknown): code is FirebaseAuthErrorCode {
+  return Object.values(FIREBASE_AUTH_ERRORS).includes(code as FirebaseAuthErrorCode);
+}

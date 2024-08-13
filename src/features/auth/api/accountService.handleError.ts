@@ -6,12 +6,17 @@ import {
   TooManyRequestsError,
   UnauthorizedError,
 } from '@/shard/model/errors/APIErrors';
-import { FIREBASE_AUTH_ERRORS, type FirebaseAuthErrorCode } from '@/shard/model/errors/firebaseAuthErrors';
+import {
+  FIREBASE_AUTH_ERRORS,
+  type FirebaseAuthErrorCode,
+  isFirebaseAuthErrorCode,
+} from '@/shard/model/errors/firebaseAuthErrors';
 
 import { API_AUTH_ERROR_MESSAGES } from '../model/constants';
 
 export function handleCreateAccountError(error: unknown): ApiError {
-  if (error instanceof Error && 'code' in error) {
+  if (error instanceof Error && 'code' in error && isFirebaseAuthErrorCode(error.code)) {
+    console.error('Firebase error code:', error.code);
     const errorCode = error.code as FirebaseAuthErrorCode;
 
     switch (errorCode) {
@@ -37,7 +42,7 @@ export function handleCreateAccountError(error: unknown): ApiError {
         return new InternalServerError(API_AUTH_ERROR_MESSAGES.UNKNOWN_ERROR);
     }
   }
-
+  console.error('Unknown error:', error);
   return new InternalServerError(API_AUTH_ERROR_MESSAGES.UNKNOWN_ERROR);
 }
 export function handleDeleteAccountError(error: unknown): void {
