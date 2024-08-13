@@ -1,4 +1,11 @@
 name: 🏗️ 프로젝트 실행 환경을 설정한다
+inputs:
+  PROJECT_ENV:
+    description: 'env'
+    required: true
+  FIREBASE_ADMINSDK_JSON:
+    description: 'Firebase Admin SDK JSON'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -14,6 +21,12 @@ runs:
         node-version: 18
         cache: 'pnpm' # pnpm-lock.yaml 사용해 캐시
 
-    - name: ③ 의존성 다운로드
-      run: pnpm install
+    - name: ③ env 파일 설정
       shell: bash
+      run: |
+        echo "${{ inputs.PROJECT_ENV }}" > .env
+
+    - name: ④ firebase-adminsdk 설정
+      shell: bash
+      run: |
+        echo "${{ inputs.FIREBASE_ADMINSDK_JSON }}" > src/shard/lib/firebase-adminsdk.json

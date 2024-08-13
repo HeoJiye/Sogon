@@ -12,3 +12,6 @@ export { default as Modal } from './Modal';
 
 export * from './LinkButton';
 export { default as LinkButton } from './LinkButton';
+
+export * from './CheckBox';
+export { default as CheckBox } from './CheckBox';
