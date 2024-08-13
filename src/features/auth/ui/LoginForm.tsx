@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
+import { Button, CheckBox, Input, LinkButton, Logo, Modal } from '@/shard/ui';
 
 import { useLoginForm } from '../lib';
 
@@ -30,6 +30,8 @@ function LoginForm({}: LoginFormProps) {
                 {...register.password}
                 error={formState.errors.password?.message}
               />
+              <CheckBox id='rememberEmail' label='이메일 기억하기' {...register.rememberEmail} />
+              <CheckBox id='keepLogin' label='로그인 유지하기' {...register.keepLogin} />
             </div>
             <Button type='submit'>로그인</Button>
           </form>

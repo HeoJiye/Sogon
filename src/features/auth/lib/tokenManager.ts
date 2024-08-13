@@ -1,4 +1,4 @@
-import { setCookie } from 'cookies-next';
+import { deleteCookie, setCookie } from 'cookies-next';
 import { NextOrObserver, User, onIdTokenChanged } from 'firebase/auth';
 
 import { auth } from '@/shard/lib/firebase';
@@ -21,5 +21,5 @@ export async function sessionLogout() {
   await auth.signOut();
 
   unsubscribeTokenChangedListener?.();
-  setCookie(TOKEN_COOKIE_NAME, '', { ...TOKEN_COOKIE_OPTIONS, maxAge: 0 });
+  deleteCookie(TOKEN_COOKIE_NAME);
 }
