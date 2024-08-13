@@ -57,6 +57,13 @@ export class ImATeapotError extends ApiError {
   }
 }
 
+/* 429 Too Many Requests */
+export class TooManyRequestsError extends ApiError {
+  constructor(message?: string) {
+    super(message ?? 'Too Many Requests', 429);
+  }
+}
+
 /* 500 Internal Server Error */
 export class InternalServerError extends ApiError {
   constructor(message?: string) {

@@ -8,4 +8,5 @@ if (!firebaseAdmin.apps.length) {
   });
 }
 
-export default firebaseAdmin;
+export const auth = firebaseAdmin.auth();
+export const db = firebaseAdmin.firestore();
