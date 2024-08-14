@@ -17,14 +17,11 @@ function AlertItem({ type, message, persistent, onClose }: AlertItemProps) {
     setIsVisible(true);
 
     if (!persistent) {
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         setIsVisible(false);
-        setTimeout(onClose, 500);
+        setTimeout(onClose, 400);
       }, 3000);
-
-      return () => clearTimeout(timer);
     }
-    return undefined;
   }, [persistent, onClose]);
 
   const handleClose = () => {

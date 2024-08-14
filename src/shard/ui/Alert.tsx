@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import AlertItem from './Alert.item';
