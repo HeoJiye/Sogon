@@ -15,6 +15,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@types/classnames": "^2.3.1",
     "axios": "^1.7.3",
     "classnames": "^2.5.1",
@@ -26,7 +27,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.2",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "1.6.1",
