@@ -14,7 +14,7 @@ function Alert({}: AlertProps) {
   }));
 
   return (
-    <div className='toast toast-end items-end'>
+    <div className='toast toast-end z-999 items-end'>
       {queue.map(({ id, type, message, persistent }) => (
         <AlertItem key={id} type={type} message={message} persistent={persistent} onClose={() => pop(id)} />
       ))}

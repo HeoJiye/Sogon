@@ -39,6 +39,9 @@ const config: Config = {
       animation: {
         'modal-show': 'modal-show 0.3s ease-out forwards',
       },
+      zIndex: {
+        '999': '999',
+      },
     },
   },
   plugins: [
