@@ -13,7 +13,9 @@ export function useSignupForm() {
   const { register, handleSubmit, watch, formState } = useForm<SignupFormSchema>();
 
   const onSubmit = async ({ email, password }: SignupFormSchema) => {
-    await signup({ email, password });
+    if (await signup({ email, password })) {
+      window.location.href = '/';
+    }
   };
 
   return {

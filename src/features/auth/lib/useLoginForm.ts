@@ -22,7 +22,9 @@ export function useLoginForm() {
   });
 
   const onSubmit = async ({ email, password, rememberEmail, keepLogin }: LoginFormSchema) => {
-    await login({ email, password }, { rememberEmail, keepLogin });
+    if (await login({ email, password }, { rememberEmail, keepLogin })) {
+      window.location.href = '/';
+    }
   };
 
   return {
