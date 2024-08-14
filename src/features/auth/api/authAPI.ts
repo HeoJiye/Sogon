@@ -9,14 +9,21 @@ import {
 } from 'firebase/auth';
 
 import { auth } from '@/shard/lib/firebase';
+import handleFirebaseAuthError from '@/shard/lib/firebase.errorhandle';
 
 import { sessionLogin, sessionLogout } from '../lib/tokenManager';
 import { AuthDTO } from '../model/dto';
 
-export async function signup({ email, password }: AuthDTO) {
-  const { user } = await createUserWithEmailAndPassword(auth, email, password);
-  await sessionLogin(user);
-  sendEmailVerification(user);
+export async function signup({ email, password }: AuthDTO): Promise<boolean> {
+  try {
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    await sessionLogin(user);
+    sendEmailVerification(user);
+    return true;
+  } catch (error) {
+    handleFirebaseAuthError(error);
+    return false;
+  }
 }
 
 type LoginOption = {
@@ -24,27 +31,39 @@ type LoginOption = {
   keepLogin?: boolean;
 };
 
-export async function login({ email, password }: AuthDTO, option?: LoginOption) {
-  if (option?.keepLogin) {
-    await setPersistence(auth, browserLocalPersistence);
-    setCookie('keepLogin', 'true');
-  } else {
-    await setPersistence(auth, browserSessionPersistence);
-    deleteCookie('keepLogin');
-  }
+export async function login({ email, password }: AuthDTO, option?: LoginOption): Promise<boolean> {
+  try {
+    if (option?.keepLogin) {
+      await setPersistence(auth, browserLocalPersistence);
+      setCookie('keepLogin', 'true');
+    } else {
+      await setPersistence(auth, browserSessionPersistence);
+      deleteCookie('keepLogin');
+    }
 
-  const { user } = await signInWithEmailAndPassword(auth, email, password);
-  await sessionLogin(user);
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    await sessionLogin(user);
 
-  if (option?.rememberEmail) {
-    setCookie('email', email);
-    setCookie('rememberEmail', 'true');
-  } else {
-    deleteCookie('email');
-    deleteCookie('rememberEmail');
+    if (option?.rememberEmail) {
+      setCookie('email', email);
+      setCookie('rememberEmail', 'true');
+    } else {
+      deleteCookie('email');
+      deleteCookie('rememberEmail');
+    }
+    return true;
+  } catch (error) {
+    handleFirebaseAuthError(error);
+    return false;
   }
 }
 
-export async function logout() {
-  await sessionLogout();
+export async function logout(): Promise<boolean> {
+  try {
+    await sessionLogout();
+    return true;
+  } catch (error) {
+    handleFirebaseAuthError(error);
+    return false;
+  }
 }
