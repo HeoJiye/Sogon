@@ -1,6 +1,7 @@
 import { CheckIcon, InformationCircleIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 import cn from 'classnames';
+import { useEffect } from 'react';
 
 interface AlertItemProps {
   type: 'error' | 'success' | 'info';
@@ -10,6 +11,14 @@ interface AlertItemProps {
 }
 
 function AlertItem({ type, message, persistent, onClose }: AlertItemProps) {
+  useEffect(() => {
+    if (!persistent) {
+      setTimeout(() => {
+        onClose();
+      }, 3000);
+    }
+  });
+
   return (
     <div
       className={cn('alert w-fit min-w-400 text-14', {
