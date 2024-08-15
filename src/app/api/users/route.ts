@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 import { type CreateProfileDTO, USER_RECORD, type User, createProfileSchema } from '@/entities/user/model';
 import { db } from '@/shard/lib/firebaseAdmin';

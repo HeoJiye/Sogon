@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 import {
   type CreateProfileDTO,
   USER_RECORD,
   type User,
-  ViewProfileDTO,
+  type ViewProfileDTO,
   createProfileSchema,
   viewProfileSchema,
 } from '@/entities/user/model';
