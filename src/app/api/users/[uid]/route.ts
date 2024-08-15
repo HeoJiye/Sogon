@@ -64,16 +64,16 @@ async function getFriendStatus(currentUserId: string, userId: string) {
     return 'self';
   }
 
-  const friendsRef = db.collection('users').doc(currentUserId).collection('friends').doc(userId);
+  const friendsRef = db.collection(USER_RECORD).doc(currentUserId).collection('friends').doc(userId);
   const friendDoc = await friendsRef.get();
 
   if (friendDoc.exists) {
     return 'friends';
   }
-  const friendRequestRef1 = db.collection('users').doc(currentUserId).collection('friendRequests').doc(userId);
+  const friendRequestRef1 = db.collection(USER_RECORD).doc(currentUserId).collection('friendRequests').doc(userId);
   const friendRequestDoc1 = await friendRequestRef1.get();
 
-  const friendRequestRef2 = db.collection('users').doc(currentUserId).collection('friendRequests').doc(userId);
+  const friendRequestRef2 = db.collection(USER_RECORD).doc(userId).collection('friendRequests').doc(currentUserId);
   const friendRequestDoc2 = await friendRequestRef2.get();
 
   if (friendRequestDoc1.exists || friendRequestDoc2.exists) {
