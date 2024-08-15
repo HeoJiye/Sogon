@@ -1,3 +1,2 @@
 pnpm run lint
-pnpm run format
-pnpm audit
+pnpm run format-test

@@ -1,0 +1,26 @@
+name: chromatic
+
+on:
+  push:
+    branches:
+      - 'release'
+      - 'dev'
+
+jobs:
+  build:
+    name: 🎨 chromatic 빌드하기
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ① 레포지터리 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ② 프로젝트 실행 환경 설정
+        uses: ./.github/actions/project-setup
+
+      - name: ③ chromatic 배포
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -24,6 +24,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*storybook.log
 
 # local env files
 .env*.local
@@ -37,3 +38,5 @@ next-env.d.ts
 
 pnpm-lock.yaml
 .husky
+
+.fttemplates
