@@ -1,5 +1,3 @@
-import { FirebaseAuthError } from 'firebase-admin/auth';
-
 export const FIREBASE_AUTH_ERROR = {
   EMAIL_ALREADY_IN_USE: 'auth/email-already-in-use',
   INVALID_EMAIL: 'auth/invalid-email',
@@ -35,7 +33,3 @@ export const FIREBASE_AUTH_ERROR_MESSAGE = {
   [FIREBASE_AUTH_ERROR.INVALID_USER_TOKEN]: '유효하지 않은 인증 정보입니다. 다시 로그인해 주세요.',
   [FIREBASE_AUTH_ERROR.INVALID_ID_TOKEN]: '유효하지 않은 인증 정보입니다. 다시 로그인해 주세요.',
 };
-
-export function isFirebaseAuthError(error: unknown): error is FirebaseAuthError {
-  return error instanceof FirebaseAuthError;
-}
