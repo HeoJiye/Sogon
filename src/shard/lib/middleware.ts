@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export * from './middleware.auth';
+
 export function handler(...middleware: Function[]) {
   return async function recursiveHandler(request: NextRequest): Promise<NextResponse> {
     const fn = middleware.shift();
