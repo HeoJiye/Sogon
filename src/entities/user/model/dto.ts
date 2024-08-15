@@ -6,7 +6,7 @@ export type CreateProfileDTO = {
   bio: string;
 };
 
-export const CreateProfileSchema = z.object({
+export const createProfileSchema = z.object({
   nickname: z.string().max(20),
   profileImage: z.string().url().optional(),
   bio: z.string().max(50).nullable(),

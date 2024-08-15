@@ -2,11 +2,12 @@ import { NextRequest } from 'next/server';
 import { ZodObject, ZodRawShape } from 'zod';
 
 import { BadRequestError } from '../model/errors/APIErrors';
+import { NextAPIContext } from '../model/type';
 
 export const VALIDATED_BODY_HEADER_FIELD = 'validated-body';
 
 export function validateMiddleware<T extends ZodRawShape>(schema: ZodObject<T>) {
-  return async (request: NextRequest, next: () => symbol) => {
+  return async (request: NextRequest, context: NextAPIContext, next: () => symbol) => {
     const result = schema.safeParse(await request.json());
 
     if (!result.success) {

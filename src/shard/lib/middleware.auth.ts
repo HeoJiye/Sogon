@@ -5,9 +5,11 @@ import { auth } from '@/shard/lib/firebaseAdmin';
 import { ForbiddenError, InternalServerError, UnauthorizedError } from '@/shard/model/errors/APIErrors';
 import { FIREBASE_AUTH_ERROR } from '@/shard/model/errors/firebaseErrors';
 
+import { NextAPIContext } from '../model/type';
+
 export const UID_HEADER_FIELD = 'x-uid';
 
-export async function tokenMiddleware(request: NextRequest, next: () => symbol) {
+export async function tokenMiddleware(request: NextRequest, context: NextAPIContext, next: () => symbol) {
   const token = request.cookies.get('token')?.value;
 
   if (!token) {

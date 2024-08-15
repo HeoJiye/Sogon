@@ -5,22 +5,27 @@ import { db } from '@/shard/lib/firebaseAdmin';
 import {
   UID_HEADER_FIELD,
   VALIDATED_BODY_HEADER_FIELD,
+  emailVerifiedMiddleware,
   handler,
   tokenMiddleware,
   validateMiddleware,
 } from '@/shard/lib/middleware';
-import { ConflictError, InternalServerError } from '@/shard/model/errors/APIErrors';
+import { ForbiddenError, InternalServerError, NotFoundError } from '@/shard/model/errors/APIErrors';
 
-async function createProfile(request: NextRequest) {
+async function updateProfile(request: NextRequest, { params }: { params: { uid: string } }) {
   const userId = request.headers.get(UID_HEADER_FIELD);
   if (!userId) {
     return new InternalServerError('인증 미들웨어에 문제가 있습니다. 개발자에게 문의해주세요.').toResponse();
   }
 
+  if (userId !== params.uid) {
+    return new ForbiddenError('해당 사용자의 프로필을 수정할 권한이 없습니다.').toResponse();
+  }
+
   const userRef = db.collection(USER_RECORD).doc(userId);
   const doc = await userRef.get();
-  if (doc.exists) {
-    return new ConflictError('해당 사용자에 대한 프로필이 이미 존재합니다.').toResponse();
+  if (!doc.exists) {
+    return new NotFoundError('해당 사용자 프로필을 찾을 수 없습니다.').toResponse();
   }
 
   const body = request.headers.get(VALIDATED_BODY_HEADER_FIELD);
@@ -30,15 +35,19 @@ async function createProfile(request: NextRequest) {
 
   const { nickname, profileImage = null, bio } = JSON.parse(body) satisfies CreateProfileDTO;
 
-  await userRef.set({
+  await userRef.update({
     nickname,
     profileImage,
     bio,
-    createdAt: new Date(),
     updatedAt: new Date(),
-  } satisfies User);
+  } satisfies Partial<User>);
 
-  return NextResponse.json({ userId, ...(await userRef.get()).data() }, { status: 201 });
+  return NextResponse.json({ userId, ...(await userRef.get()).data() }, { status: 200 });
 }
 
-export const POST = handler(tokenMiddleware, validateMiddleware(createProfileSchema), createProfile);
+export const PUT = handler(
+  tokenMiddleware,
+  emailVerifiedMiddleware,
+  validateMiddleware(createProfileSchema),
+  updateProfile
+);

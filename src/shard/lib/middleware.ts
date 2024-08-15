@@ -3,11 +3,13 @@
 /* eslint-disable no-restricted-syntax */
 import { NextRequest } from 'next/server';
 
+import { NextAPIContext } from '../model/type';
+
 export * from './middleware.auth';
 export * from './middleware.validate';
 
 export function handler(...middleware: Function[]) {
-  return async (request: NextRequest) => {
+  return async (request: NextRequest, context: NextAPIContext) => {
     let result;
 
     for (const fn of middleware) {
@@ -15,7 +17,7 @@ export function handler(...middleware: Function[]) {
 
       const next = () => symbol;
 
-      result = await fn(request, next);
+      result = await fn(request, context, next);
       if (result !== symbol) {
         break;
       }
