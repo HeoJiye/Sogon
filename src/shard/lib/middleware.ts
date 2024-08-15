@@ -1,24 +1,28 @@
-import { NextRequest, NextResponse } from 'next/server';
+/* eslint-disable no-await-in-loop */
+
+/* eslint-disable no-restricted-syntax */
+import { NextRequest } from 'next/server';
 
 export * from './middleware.auth';
 
 export function handler(...middleware: Function[]) {
-  return async function recursiveHandler(request: NextRequest): Promise<NextResponse> {
-    const fn = middleware.shift();
+  return async (request: NextRequest) => {
+    let result;
 
-    if (!fn) {
-      throw new Error('Handler or middleware must return a NextResponse!');
+    for (const fn of middleware) {
+      const symbol = Symbol('next');
+
+      const next = () => symbol;
+
+      result = await fn(request, next);
+      if (result !== symbol) {
+        break;
+      }
     }
-    if (middleware.length === 0) {
-      return fn(request);
+
+    if (result) {
+      return result;
     }
-
-    const symbol = Symbol('next');
-
-    const next = () => symbol;
-
-    const result = await fn(request, next);
-
-    return result !== symbol ? result : recursiveHandler(request);
+    throw new Error('Handler or middleware must return a NextResponse!');
   };
 }
