@@ -4,6 +4,7 @@
 import { NextRequest } from 'next/server';
 
 export * from './middleware.auth';
+export * from './middleware.validate';
 
 export function handler(...middleware: Function[]) {
   return async (request: NextRequest) => {
