@@ -1,6 +1,6 @@
 import { FirebaseError } from 'firebase/app';
 
-import { FIREBASE_AUTH_ERROR_MESSAGE } from '../model/errors/firebase.auth.errors';
+import { FIREBASE_AUTH_ERROR_MESSAGE } from '../model/errors/firebaseErrors';
 import alert from './alert';
 
 function isFirebaseError(error: unknown): error is FirebaseError {
