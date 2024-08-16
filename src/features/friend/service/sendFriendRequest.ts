@@ -6,11 +6,23 @@ import { FRIEND_REQUEST_RECORD, FriendRequest, SendFriendResponseDTO } from '../
 
 async function isRequestExists(senderId: string, receiverId: string): Promise<boolean> {
   const existingRequests = await Promise.all([
-    db.collection(USER_RECORD).doc(receiverId).collection(FRIEND_REQUEST_RECORD).doc(senderId).get(),
-    db.collection(USER_RECORD).doc(senderId).collection(FRIEND_REQUEST_RECORD).doc(receiverId).get(),
+    db
+      .collection(USER_RECORD)
+      .doc(receiverId)
+      .collection(FRIEND_REQUEST_RECORD)
+      .where('senderId', '==', senderId)
+      .where('status', '==', 'pending')
+      .get(),
+    db
+      .collection(USER_RECORD)
+      .doc(senderId)
+      .collection(FRIEND_REQUEST_RECORD)
+      .where('senderId', '==', receiverId)
+      .where('status', '==', 'pending')
+      .get(),
   ]);
 
-  return existingRequests.some((requests) => requests.exists);
+  return existingRequests.every((requests) => requests.empty);
 }
 
 export async function sendFriendRequest(
