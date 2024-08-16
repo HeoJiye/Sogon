@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { signup } from '../api/authAPI';
+import { signup } from '../api';
 import { emailValidation, passwordConfirmValidation, passwordValidation } from './validate';
 
 export interface SignupFormSchema {

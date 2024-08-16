@@ -1,7 +1,7 @@
 import { db } from '@/shard/lib/firebaseAdmin';
-import { ConflictError } from '@/shard/model/errors/APIErrors';
+import { ConflictError } from '@/shard/model';
 
-import { type EditProfileRequestDTO, type EditProfileResponseDTO, USER_RECORD, type User } from '../../model';
+import { type EditProfileRequestDTO, type EditProfileResponseDTO, USER_RECORD, type User } from '../model';
 
 async function createProfile(
   userId: string,

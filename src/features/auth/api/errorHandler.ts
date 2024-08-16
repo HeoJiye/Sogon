@@ -1,9 +1,9 @@
 import { FirebaseError } from 'firebase/app';
 
-import { FIREBASE_AUTH_ERROR_MESSAGE } from '../model/errors/firebaseErrors';
-import alert from './alert';
+import alert from '@/shard/lib/alert';
+import { FIREBASE_AUTH_ERROR_MESSAGE } from '@/shard/model/firebaseErrors';
 
-function handleFirebaseAuthError(error: unknown) {
+export function errorHandler(error: unknown) {
   const message =
     error instanceof FirebaseError
       ? FIREBASE_AUTH_ERROR_MESSAGE[error.code as keyof typeof FIREBASE_AUTH_ERROR_MESSAGE]
@@ -11,5 +11,3 @@ function handleFirebaseAuthError(error: unknown) {
 
   alert({ type: 'error', message });
 }
-
-export default handleFirebaseAuthError;

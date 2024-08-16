@@ -1,7 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { getProfile, updateProfile } from '@/entities/user/lib/service';
 import { type EditProfileRequestDTO, editProfileRequestSchema } from '@/entities/user/model';
+import { getProfile, updateProfile } from '@/entities/user/service';
+import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
   getBody,
@@ -10,7 +11,7 @@ import {
   tokenMiddleware,
   validateMiddleware,
 } from '@/shard/lib/middleware';
-import { ApiError, ForbiddenError, InternalServerError } from '@/shard/model/errors/APIErrors';
+import { ForbiddenError } from '@/shard/model/ApiErrors';
 
 async function updateProfileGateway(request: NextRequest, { params }: { params: { uid: string } }) {
   try {
@@ -20,14 +21,9 @@ async function updateProfileGateway(request: NextRequest, { params }: { params: 
     if (userId !== params.uid) {
       throw new ForbiddenError('해당 사용자의 프로필을 수정할 권한이 없습니다.');
     }
-
     return NextResponse.json(await updateProfile(userId, body), { status: 201 });
   } catch (error) {
-    if (error instanceof ApiError) {
-      return error.toResponse();
-    }
-    console.error('Unexpected error:', error);
-    return new InternalServerError('서버에서 알 수 없는 오류가 발생했습니다.').toResponse();
+    return gatewayErrorHandler(error);
   }
 }
 
@@ -45,11 +41,7 @@ async function getProfileGateway(request: NextRequest, { params }: { params: { u
 
     return NextResponse.json(await getProfile(curUserId, userId), { status: 200 });
   } catch (error) {
-    if (error instanceof ApiError) {
-      return error.toResponse();
-    }
-    console.error('Unexpected error:', error);
-    return new InternalServerError('서버에서 알 수 없는 오류가 발생했습니다.').toResponse();
+    return gatewayErrorHandler(error);
   }
 }
 

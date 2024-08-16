@@ -3,10 +3,14 @@
 /* eslint-disable no-restricted-syntax */
 import { NextRequest } from 'next/server';
 
-import { NextAPIContext } from '../model/type';
-
 export * from './middleware.auth';
+export * from './middleware.emailVerified';
 export * from './middleware.validate';
+
+export type NextAPIContext = {
+  params?: Record<string, string>;
+  searchParams?: URLSearchParams;
+};
 
 export function handler(...middleware: Function[]) {
   return async (request: NextRequest, context: NextAPIContext) => {

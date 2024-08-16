@@ -1,7 +1,7 @@
 import { getCookie } from 'cookies-next';
 import { useForm } from 'react-hook-form';
 
-import { login } from '../api/authAPI';
+import { login } from '../api';
 import { emailValidation, requiredValidation } from './validate';
 
 export interface LoginFormSchema {
