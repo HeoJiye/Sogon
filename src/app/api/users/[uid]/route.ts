@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { getProfile, updateProfile } from '@/entities/user/lib/service';
 import { type EditProfileRequestDTO, editProfileRequestSchema } from '@/entities/user/model';
+import { getProfile, updateProfile } from '@/entities/user/service';
 import {
   emailVerifiedMiddleware,
   getBody,
@@ -10,7 +10,7 @@ import {
   tokenMiddleware,
   validateMiddleware,
 } from '@/shard/lib/middleware';
-import { ApiError, ForbiddenError, InternalServerError } from '@/shard/model/errors/APIErrors';
+import { ApiError, ForbiddenError, InternalServerError } from '@/shard/model/ApiErrors';
 
 async function updateProfileGateway(request: NextRequest, { params }: { params: { uid: string } }) {
   try {

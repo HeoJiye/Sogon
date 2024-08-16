@@ -2,14 +2,11 @@ import { FirebaseAuthError } from 'firebase-admin/auth';
 import type { NextRequest } from 'next/server';
 
 import { auth } from '@/shard/lib/firebaseAdmin';
-import { ForbiddenError, InternalServerError, UnauthorizedError } from '@/shard/model/errors/APIErrors';
-import { FIREBASE_AUTH_ERROR } from '@/shard/model/errors/firebaseErrors';
-
-import { NextAPIContext } from '../model/type';
+import { FIREBASE_AUTH_ERROR, InternalServerError, UnauthorizedError } from '@/shard/model';
 
 export const UID_HEADER_FIELD = 'x-uid';
 
-export async function tokenMiddleware(request: NextRequest, context: NextAPIContext, next: () => symbol) {
+export async function tokenMiddleware(request: NextRequest, context: unknown, next: () => symbol) {
   const token = request.cookies.get('token')?.value;
   if (!token) {
     return new UnauthorizedError('로그인이 필요합니다.').toResponse();
@@ -34,21 +31,6 @@ export async function tokenMiddleware(request: NextRequest, context: NextAPICont
     }
     return new UnauthorizedError('토큰이 유효하지 않습니다. 다시 로그인해주세요.').toResponse();
   }
-  return next();
-}
-
-export async function emailVerifiedMiddleware(request: NextRequest, next: () => symbol) {
-  const uid = request.headers.get(UID_HEADER_FIELD);
-
-  if (!uid) {
-    return new InternalServerError('인증 미들웨어에 문제가 있습니다. 개발자에게 문의해주세요.').toResponse();
-  }
-  const user = await auth.getUser(uid);
-
-  if (user.emailVerified === false) {
-    return new ForbiddenError('이메일 인증이 필요합니다.').toResponse();
-  }
-
   return next();
 }
 

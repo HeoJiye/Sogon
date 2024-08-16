@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { ApiError, BadRequestError, InternalServerError } from '../model/errors/APIErrors';
+import { ApiError, BadRequestError, InternalServerError } from '../model/ApiErrors';
 
 export default function handleGatewayError(error: unknown): ApiError {
   if (error instanceof z.ZodError) {

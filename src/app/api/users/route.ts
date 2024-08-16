@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { createProfile } from '@/entities/user/lib/service';
 import { type EditProfileRequestDTO, editProfileRequestSchema } from '@/entities/user/model';
+import { createProfile } from '@/entities/user/service';
 import { getBody, getUserId, handler, tokenMiddleware, validateMiddleware } from '@/shard/lib/middleware';
-import { ApiError, InternalServerError } from '@/shard/model/errors/APIErrors';
+import { ApiError, InternalServerError } from '@/shard/model/ApiErrors';
 
 async function createProfileGateway(request: NextRequest) {
   try {

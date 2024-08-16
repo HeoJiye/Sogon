@@ -1,7 +1,7 @@
 import { db } from '@/shard/lib/firebaseAdmin';
-import { InternalServerError, NotFoundError } from '@/shard/model/errors/APIErrors';
+import { InternalServerError, NotFoundError } from '@/shard/model';
 
-import { ProfileResponseDTO, USER_RECORD, type User, UserReleationStatus, profileResponseSchema } from '../../model';
+import { ProfileResponseDTO, USER_RECORD, type User, UserReleationStatus, profileResponseSchema } from '../model';
 
 async function getFriendStatus(curUserId: string, userId: string): Promise<UserReleationStatus> {
   if (curUserId === userId) {
