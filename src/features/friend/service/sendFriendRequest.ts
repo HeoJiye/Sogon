@@ -4,22 +4,20 @@ import { ConflictError, ForbiddenError, NotFoundError } from '@/shard/model';
 
 import { FRIEND_REQUEST_RECORD, FriendRequest, SendFriendResponseDTO } from '../model';
 
+function getPendingRequests(senderId: string, receiverId: string) {
+  return db
+    .collection(USER_RECORD)
+    .doc(receiverId)
+    .collection(FRIEND_REQUEST_RECORD)
+    .where('senderId', '==', senderId)
+    .where('status', '==', 'pending')
+    .get();
+}
+
 async function isRequestExists(senderId: string, receiverId: string): Promise<boolean> {
   const existingRequests = await Promise.all([
-    db
-      .collection(USER_RECORD)
-      .doc(receiverId)
-      .collection(FRIEND_REQUEST_RECORD)
-      .where('senderId', '==', senderId)
-      .where('status', '==', 'pending')
-      .get(),
-    db
-      .collection(USER_RECORD)
-      .doc(senderId)
-      .collection(FRIEND_REQUEST_RECORD)
-      .where('senderId', '==', receiverId)
-      .where('status', '==', 'pending')
-      .get(),
+    getPendingRequests(senderId, receiverId),
+    getPendingRequests(receiverId, senderId),
   ]);
 
   return existingRequests.every((requests) => requests.empty);
@@ -42,17 +40,20 @@ export async function sendFriendRequest(
     throw new ConflictError('이미 친구 요청을 보냈거나, 받았습니다.');
   }
 
-  const friendRequestRef = db.collection(USER_RECORD).doc(receiverId).collection(FRIEND_REQUEST_RECORD).doc();
-  const requestId = friendRequestRef.id;
+  const friendRequestRef = await db
+    .collection(USER_RECORD)
+    .doc(receiverId)
+    .collection(FRIEND_REQUEST_RECORD)
+    .add({
+      senderId,
+      message: message ?? '',
+      status: 'pending',
+      createdAt: new Date(),
+    });
 
-  await friendRequestRef.set({
-    senderId,
-    message: message || '',
-    status: 'pending',
-    createdAt: new Date(),
-  } satisfies FriendRequest);
-
-  const createdRequest = (await friendRequestRef.get()).data() as FriendRequest;
-
-  return { requestId, receiverId, ...createdRequest };
+  return {
+    requestId: friendRequestRef.id,
+    receiverId,
+    ...((await friendRequestRef.get()).data() as FriendRequest),
+  };
 }
