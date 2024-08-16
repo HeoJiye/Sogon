@@ -13,7 +13,7 @@ async function isFriendRequestExists(receiverId: string, senderId: string): Prom
 
 export async function addFriend(userId: string, friendId: string): Promise<AddFriendResponseDTO> {
   if (userId === friendId) {
-    throw new ForbiddenError('본인을 친구로 추가할 수 없습니다.');
+    throw new ForbiddenError('나 자신은 영원한 인생의 친구입니다. 😊');
   }
 
   if (!(await db.collection(USER_RECORD).doc(friendId).get()).exists) {

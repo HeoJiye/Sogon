@@ -19,7 +19,7 @@ export async function sendFriendRequest(
   message?: string
 ): Promise<SendFriendResponseDTO> {
   if (senderId === receiverId) {
-    throw new ForbiddenError('본인에게 친구 요청을 보낼 수 없습니다.');
+    throw new ForbiddenError('나 자신은 영원한 인생의 친구입니다. 😊');
   }
 
   if (!(await db.collection(USER_RECORD).doc(receiverId).get()).exists) {
