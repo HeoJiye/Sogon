@@ -23,3 +23,9 @@ export type SendFriendResponseDTO = {
   status: FriendRequestStatus;
   createdAt: Date;
 };
+
+export type AddFriendResponseDTO = {
+  userId: string;
+  friendId: string;
+  createdAt: Date;
+};
