@@ -11,7 +11,6 @@ export const UID_HEADER_FIELD = 'x-uid';
 
 export async function tokenMiddleware(request: NextRequest, context: NextAPIContext, next: () => symbol) {
   const token = request.cookies.get('token')?.value;
-
   if (!token) {
     return new UnauthorizedError('로그인이 필요합니다.').toResponse();
   }
@@ -51,4 +50,12 @@ export async function emailVerifiedMiddleware(request: NextRequest, next: () => 
   }
 
   return next();
+}
+
+export function getUserId(request: NextRequest) {
+  const uid = request.headers.get(UID_HEADER_FIELD);
+  if (!uid) {
+    throw new InternalServerError('인증 미들웨어에 문제가 있습니다. 개발자에게 문의해주세요.');
+  }
+  return uid;
 }
