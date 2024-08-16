@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server';
+
 export class ApiError extends Error {
   public readonly statusCode: number;
 
@@ -5,6 +7,10 @@ export class ApiError extends Error {
     super(message);
     this.name = this.constructor.name;
     this.statusCode = statusCode || 500;
+  }
+
+  public toResponse(): NextResponse<{ error: string }> {
+    return NextResponse.json({ error: this.message }, { status: this.statusCode });
   }
 }
 
