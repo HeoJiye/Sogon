@@ -1,20 +1,11 @@
 import { QuerySnapshot } from 'firebase-admin/firestore';
 
 import { USER_RECORD } from '@/entities/user/model';
+import { findPendingRequestSnapshot } from '@/features/friendRequest/service';
 import { db } from '@/shard/lib/firebaseAdmin';
 import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '@/shard/model';
 
-import { AddFriendResponseDTO, FRIEND_RECORD, FRIEND_REQUEST_RECORD } from '../model';
-
-function getRequestSnapshot(userId: string, friendId: string) {
-  return db
-    .collection(USER_RECORD)
-    .doc(userId)
-    .collection(FRIEND_REQUEST_RECORD)
-    .where('senderId', '==', friendId)
-    .where('status', '==', 'pending')
-    .get();
-}
+import { AddFriendResponseDTO, FRIEND_RECORD } from '../model';
 
 function acceptFriendRequest(userId: string, friendId: string, requestSnapshot: QuerySnapshot) {
   return db.runTransaction(async (transaction) => {
@@ -42,7 +33,7 @@ export async function addFriend(userId: string, friendId: string): Promise<AddFr
     throw new NotFoundError('찾을 수 없는 사용자입니다.');
   }
 
-  const requestSnapshot = await getRequestSnapshot(userId, friendId);
+  const requestSnapshot = await findPendingRequestSnapshot(userId, friendId);
 
   if (requestSnapshot.empty) {
     throw new BadRequestError('상대방으로부터 친구 요청이 존재하지 않습니다.');
