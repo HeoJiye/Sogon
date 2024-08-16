@@ -1,3 +1,4 @@
+import { pushFriendRequestNoti } from '@/entities/notification/service';
 import { USER_RECORD } from '@/entities/user/model';
 import { db } from '@/shard/lib/firebaseAdmin';
 import { ConflictError, ForbiddenError, NotFoundError } from '@/shard/model';
@@ -50,6 +51,8 @@ export async function sendFriendRequest(
       status: 'pending',
       createdAt: new Date(),
     });
+
+  await pushFriendRequestNoti(receiverId, senderId);
 
   return {
     requestId: friendRequestRef.id,

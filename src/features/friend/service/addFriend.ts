@@ -1,5 +1,6 @@
 import { QuerySnapshot } from 'firebase-admin/firestore';
 
+import { pushFriendNoti } from '@/entities/notification/service';
 import { USER_RECORD } from '@/entities/user/model';
 import { findPendingRequestSnapshot } from '@/features/friendRequest/service';
 import { db } from '@/shard/lib/firebaseAdmin';
@@ -40,6 +41,9 @@ export async function addFriend(userId: string, friendId: string): Promise<AddFr
   }
 
   await acceptFriendRequest(userId, friendId, requestSnapshot);
+
+  await pushFriendNoti(userId, friendId);
+  await pushFriendNoti(friendId, userId);
 
   return { userId, friendId, createdAt: new Date() };
 }
