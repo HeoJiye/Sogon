@@ -6,9 +6,11 @@ export type Friend = {
 
 export const FRIEND_REQUEST_RECORD = 'friendRequests' as const;
 
+export type FriendRequestStatus = 'pending' | 'accepted' | 'rejected';
+
 export type FriendRequest = {
   senderId: string;
   message: string;
-  status: 'pending' | 'accepted' | 'rejected';
+  status: FriendRequestStatus;
   createdAt: Date;
 };
