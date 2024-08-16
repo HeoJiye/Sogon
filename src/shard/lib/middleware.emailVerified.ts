@@ -1,8 +1,9 @@
 import type { NextRequest } from 'next/server';
 
 import { auth } from '@/shard/lib/firebaseAdmin';
-import { ApiError, ForbiddenError, InternalServerError } from '@/shard/model';
+import { ForbiddenError } from '@/shard/model';
 
+import gatewayErrorHandler from './gatewayErrorHandler';
 import { getUserId } from './middleware.auth';
 
 export async function emailVerifiedMiddleware(request: NextRequest, context: unknown, next: () => symbol) {
@@ -15,10 +16,6 @@ export async function emailVerifiedMiddleware(request: NextRequest, context: unk
     }
     return next();
   } catch (error) {
-    if (error instanceof ApiError) {
-      return error.toResponse();
-    }
-    console.error('Unexpected error:', error);
-    return new InternalServerError('서버에서 알 수 없는 오류가 발생했습니다.').toResponse();
+    return gatewayErrorHandler(error);
   }
 }
