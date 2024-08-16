@@ -37,11 +37,3 @@ export type ProfileResponseDTO = {
   bio: string;
   status: UserReleationStatus;
 };
-
-export const profileResponseSchema = z.object({
-  userId: z.string(),
-  nickname: z.string(),
-  profileImage: z.string().url().nullable(),
-  bio: z.string(),
-  status: z.union([z.literal('self'), z.literal('friends'), z.literal('pending'), z.literal('none')]),
-});

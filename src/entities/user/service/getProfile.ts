@@ -1,7 +1,7 @@
 import { db } from '@/shard/lib/firebaseAdmin';
-import { InternalServerError, NotFoundError } from '@/shard/model';
+import { NotFoundError } from '@/shard/model';
 
-import { ProfileResponseDTO, USER_RECORD, type User, UserReleationStatus, profileResponseSchema } from '../model';
+import { ProfileResponseDTO, USER_RECORD, type User, UserReleationStatus } from '../model';
 
 async function getFriendStatus(curUserId: string, userId: string): Promise<UserReleationStatus> {
   if (curUserId === userId) {
@@ -36,12 +36,7 @@ async function getProfile(curUserId: string, userId: string): Promise<ProfileRes
   const user = doc.data() as User;
   const status = await getFriendStatus(curUserId, userId);
 
-  const result = profileResponseSchema.safeParse({ userId, ...user, status });
-
-  if (!result.success) {
-    throw new InternalServerError('유효하지 않은 응답이 생성되었습니다.');
-  }
-  return result.data;
+  return { userId, ...user, status };
 }
 
 export default getProfile;
