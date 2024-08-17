@@ -13,15 +13,12 @@ export type PostResponseDTO = {
   updatedAt: Date;
 };
 
-export type EditPostRequestDTO = {
-  content: string;
-  imageUrls: string[];
-};
-
 export const editPostRequestSchema = z.object({
   content: z.string(),
   imageUrls: z.array(z.string().url()),
 });
+
+export type EditPostRequestDTO = z.infer<typeof editPostRequestSchema>;
 
 export type EditPostResponseDTO = {
   postId: string;

@@ -1,10 +1,11 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { editPostRequestSchema } from '@/entities/post/model';
+import { EditPostRequestDTO, editPostRequestSchema } from '@/entities/post/model';
 import { createPost, getAllPosts } from '@/entities/post/service';
 import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
+  getBody,
   getUserId,
   handler,
   tokenMiddleware,
@@ -23,7 +24,8 @@ async function getPostsGateway(request: NextRequest) {
 async function createPostGateway(request: NextRequest) {
   try {
     const userId = getUserId(request);
-    const body = await request.json();
+    const body = getBody<EditPostRequestDTO>(request);
+
     return NextResponse.json(await createPost(userId, body), { status: 201 });
   } catch (error) {
     return gatewayErrorHandler(error);

@@ -12,21 +12,14 @@ export const editProfileRequestSchema = z.object({
   bio: z.string().max(50).nullable(),
 });
 
-export type EditProfileResponseDTO = {
-  userId: string;
-  nickname: string;
-  profileImage: string | null;
-  bio: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 export const editProfileResponseSchema = z.object({
   userId: z.string(),
   nickname: z.string(),
   profileImage: z.string().url(),
   bio: z.string(),
 });
+
+export type EditProfileResponseDTO = z.infer<typeof editProfileResponseSchema>;
 
 export type UserReleationStatus = 'self' | 'friends' | 'pending' | 'none';
 
