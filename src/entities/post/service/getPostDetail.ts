@@ -4,16 +4,14 @@ import { getSimpleUser } from '@/entities/user/service';
 import { getFriendIds, isFriend } from '@/features/friend/service';
 import { ForbiddenError } from '@/shard/model';
 
-import { Post, type PostDetailsResponseDTO } from '../model';
+import { LIKE_RECORD, Post, type PostDetailsResponseDTO } from '../model';
 import { getPostRefById } from './getPostById';
 
 async function getLikes(userId: string, postRef: DocumentReference): Promise<string[]> {
-  const likesRef = postRef.collection('likes');
-  const likesSnapshot = await likesRef.get();
-
   const friendIds = await getFriendIds(userId);
+  const likesRef = postRef.collection(LIKE_RECORD).where('userId', 'in', friendIds);
 
-  return likesSnapshot.docs.map((doc) => doc.id).filter(friendIds.includes);
+  return (await likesRef.get()).docs.map((doc) => doc.id).filter(friendIds.includes);
 }
 
 export async function getPostDetails(userId: string, postId: string): Promise<PostDetailsResponseDTO> {

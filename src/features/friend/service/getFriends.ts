@@ -16,16 +16,21 @@ async function getMutualFriendIds(curUserId: string, userId: string): Promise<st
     return getFriendIds(userId);
   }
   const curUserFriends = await getFriendIds(curUserId);
-  const userFriends = await getFriendIds(userId);
 
-  return curUserFriends.filter((friendId) => userFriends.includes(friendId));
+  const snapshot = await db
+    .collection(USER_RECORD)
+    .doc(userId)
+    .collection(FRIEND_RECORD)
+    .where('__name__', 'in', curUserFriends)
+    .get();
+
+  return snapshot.docs.map((doc) => doc.id);
 }
 
 export async function getFriends(curUserId: string, userId: string): Promise<UserSimpleDTO[]> {
   if (!(await db.collection(USER_RECORD).doc(userId).get()).exists) {
     throw new NotFoundError('찾을 수 없는 사용자입니다.');
   }
-  const friends = await getMutualFriendIds(curUserId, userId);
 
-  return Promise.all(friends.map(getSimpleUser));
+  return Promise.all((await getMutualFriendIds(curUserId, userId)).map(getSimpleUser));
 }
