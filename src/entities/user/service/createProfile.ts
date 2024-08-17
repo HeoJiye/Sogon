@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase-admin/firestore';
+
 import { db } from '@/shard/lib/firebaseAdmin';
 import { ConflictError } from '@/shard/model';
 
@@ -13,17 +15,24 @@ async function createProfile(
     throw new ConflictError('해당 사용자에 대한 프로필이 이미 존재합니다.');
   }
 
+  const timestamp = Timestamp.fromDate(new Date());
+
   await userRef.set({
     nickname,
     profileImage: profileImage ?? null,
     bio,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: timestamp,
+    updatedAt: timestamp,
   } satisfies User);
 
   const editedUser = (await userRef.get()).data() as User;
 
-  return { userId, ...editedUser };
+  return {
+    userId,
+    ...editedUser,
+    createdAt: editedUser.createdAt.toDate(),
+    updatedAt: editedUser.updatedAt.toDate(),
+  };
 }
 
 export default createProfile;

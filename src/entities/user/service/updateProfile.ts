@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase-admin/firestore';
+
 import { db } from '@/shard/lib/firebaseAdmin';
 import { NotFoundError } from '@/shard/model';
 
@@ -17,12 +19,17 @@ async function updateProfile(
     nickname,
     profileImage: profileImage ?? null,
     bio,
-    updatedAt: new Date(),
+    updatedAt: Timestamp.fromDate(new Date()),
   } satisfies Partial<User>);
 
   const editedUser = (await userRef.get()).data() as User;
 
-  return { userId, ...editedUser } satisfies EditProfileResponseDTO;
+  return {
+    userId,
+    ...editedUser,
+    createdAt: editedUser.createdAt.toDate(),
+    updatedAt: editedUser.updatedAt.toDate(),
+  } satisfies EditProfileResponseDTO;
 }
 
 export default updateProfile;

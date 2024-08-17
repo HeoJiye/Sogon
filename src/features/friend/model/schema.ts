@@ -1,6 +1,7 @@
-export type FriendRequest = {
-  senderId: string;
-  message: string;
-  status: 'pending' | 'accepted' | 'rejected';
-  createdAt: Date;
+import { Timestamp } from 'firebase-admin/firestore';
+
+export const FRIEND_RECORD = 'friends' as const;
+
+export type Friend = {
+  createdAt: Timestamp;
 };

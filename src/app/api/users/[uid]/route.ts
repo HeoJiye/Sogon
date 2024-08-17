@@ -27,13 +27,6 @@ async function updateProfileGateway(request: NextRequest, { params }: { params: 
   }
 }
 
-export const PUT = handler(
-  tokenMiddleware,
-  emailVerifiedMiddleware,
-  validateMiddleware(editProfileRequestSchema),
-  updateProfileGateway
-);
-
 async function getProfileGateway(request: NextRequest, { params }: { params: { uid: string } }) {
   try {
     const curUserId = getUserId(request);
@@ -44,5 +37,12 @@ async function getProfileGateway(request: NextRequest, { params }: { params: { u
     return gatewayErrorHandler(error);
   }
 }
+
+export const PUT = handler(
+  tokenMiddleware,
+  emailVerifiedMiddleware,
+  validateMiddleware(editProfileRequestSchema),
+  updateProfileGateway
+);
 
 export const GET = handler(tokenMiddleware, emailVerifiedMiddleware, getProfileGateway);
