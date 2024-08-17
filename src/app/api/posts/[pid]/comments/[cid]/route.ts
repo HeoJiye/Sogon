@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { EditCommentRequestDTO, editCommentRequestSchema } from '@/features/comment/model';
-import { updateComment } from '@/features/comment/service';
+import { deleteComment, updateComment } from '@/features/comment/service';
 import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
 import { emailVerifiedMiddleware, handler } from '@/shard/lib/middleware';
 import { getUserId, tokenMiddleware } from '@/shard/lib/middleware.auth';
@@ -20,9 +20,24 @@ async function updateCommentGateway(request: NextRequest, { params }: { params: 
   }
 }
 
+async function deleteCommentGateway(request: NextRequest, { params }: { params: { pid: string; cid: string } }) {
+  try {
+    const userId = getUserId(request);
+    const postId = params.pid;
+    const commentId = params.cid;
+
+    await deleteComment(userId, postId, commentId);
+
+    return NextResponse.json(null, { status: 204 });
+  } catch (error) {
+    return gatewayErrorHandler(error);
+  }
+}
+
 export const PUT = handler(
   tokenMiddleware,
   emailVerifiedMiddleware,
   validateMiddleware(editCommentRequestSchema),
   updateCommentGateway
 );
+export const DELETE = handler(tokenMiddleware, emailVerifiedMiddleware, deleteCommentGateway);
