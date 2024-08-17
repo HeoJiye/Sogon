@@ -30,3 +30,13 @@ export type EditPostResponseDTO = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type PostDetailsResponseDTO = {
+  postId: string;
+  author: UserSimpleDTO;
+  content: string;
+  imageUrls: string[];
+  likes: UserSimpleDTO[];
+  createdAt: Date;
+  updatedAt: Date;
+};

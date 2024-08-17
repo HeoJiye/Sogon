@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { EditPostRequestDTO, editPostRequestSchema } from '@/entities/post/model';
 import { deletePost, updatePost } from '@/entities/post/service';
+import { getPostDetails } from '@/entities/post/service/getPostDetail';
 import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
@@ -37,6 +38,17 @@ async function deletePostGateway(request: NextRequest, { params }: { params: { p
   }
 }
 
+async function getPostDetailsGateway(request: NextRequest, { params }: { params: { pid: string } }) {
+  try {
+    const userId = getUserId(request);
+    const postId = params.pid;
+
+    return NextResponse.json(await getPostDetails(userId, postId), { status: 200 });
+  } catch (error) {
+    return gatewayErrorHandler(error);
+  }
+}
+
 export const PUT = handler(
   tokenMiddleware,
   emailVerifiedMiddleware,
@@ -45,3 +57,5 @@ export const PUT = handler(
 );
 
 export const DELETE = handler(tokenMiddleware, emailVerifiedMiddleware, deletePostGateway);
+
+export const GET = handler(tokenMiddleware, emailVerifiedMiddleware, getPostDetailsGateway);
