@@ -33,7 +33,7 @@ async function getProfile(curUserId: string, userId: string): Promise<ProfileRes
     throw new NotFoundError('해당 사용자에 대한 프로필이 존재하지 않습니다.');
   }
 
-  const user = doc.data() as User;
+  const { createdAt, updatedAt, ...user } = doc.data() as User;
   const status = await getFriendStatus(curUserId, userId);
 
   return { userId, ...user, status };

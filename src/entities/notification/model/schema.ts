@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase-admin/firestore';
+
 export const NOTIFICATION_RECORD = 'users' as const;
 
 export type NotificationType = 'friend' | 'friend-request' | 'like' | 'comment';
@@ -9,5 +11,5 @@ export type Notification = {
   url?: string;
   message: string;
   status: NotificationStatus;
-  createdAt: Date;
+  createdAt: Timestamp;
 };

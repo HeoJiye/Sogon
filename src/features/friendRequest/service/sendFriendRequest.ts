@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase-admin/firestore';
+
 import { pushFriendRequestNoti } from '@/entities/notification/service';
 import { USER_RECORD } from '@/entities/user/model';
 import { db } from '@/shard/lib/firebaseAdmin';
@@ -49,14 +51,17 @@ export async function sendFriendRequest(
       senderId,
       message: message ?? '',
       status: 'pending',
-      createdAt: new Date(),
-    });
+      createdAt: Timestamp.fromDate(new Date()),
+    } satisfies FriendRequest);
 
   await pushFriendRequestNoti(receiverId, senderId);
+
+  const createdFriendRequest = (await friendRequestRef.get()).data() as FriendRequest;
 
   return {
     requestId: friendRequestRef.id,
     receiverId,
-    ...((await friendRequestRef.get()).data() as FriendRequest),
+    ...createdFriendRequest,
+    createdAt: createdFriendRequest.createdAt.toDate(),
   };
 }

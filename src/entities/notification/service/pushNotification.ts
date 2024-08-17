@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase-admin/firestore';
+
 import { USER_RECORD } from '@/entities/user/model';
 import { db } from '@/shard/lib/firebaseAdmin';
 
@@ -22,7 +24,7 @@ export async function pushFriendNoti(receiverId: string, senderId: string) {
       url: `/profile/${senderId}`,
       message: `${senderName}와 친구가 되었습니다.`,
       status: 'pending',
-      createdAt: new Date(),
+      createdAt: Timestamp.fromDate(new Date()),
     } satisfies Notification);
 }
 
@@ -37,7 +39,7 @@ export async function pushFriendRequestNoti(receiverId: string, senderId: string
       url: `/profile/${senderId}`,
       message: `${senderName}가 친구 요청을 보냈습니다.`,
       status: 'pending',
-      createdAt: new Date(),
+      createdAt: Timestamp.fromDate(new Date()),
     } satisfies Notification);
 }
 
@@ -52,7 +54,7 @@ export async function pushLikeNoti(receiverId: string, senderId: string, postId:
       url: `/post/${postId}`,
       message: `${senderName}가 회원님의 게시글이 좋대요.`,
       status: 'pending',
-      createdAt: new Date(),
+      createdAt: Timestamp.fromDate(new Date()),
     } satisfies Notification);
 }
 
@@ -67,6 +69,6 @@ export async function pushCommentNoti(receiverId: string, senderId: string, post
       url: `/post/${postId}`,
       message: `${senderName}: ${comment}\n회원님의 게시글에 댓글이 달렸습니다.`,
       status: 'pending',
-      createdAt: new Date(),
+      createdAt: Timestamp.fromDate(new Date()),
     } satisfies Notification);
 }

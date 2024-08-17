@@ -28,7 +28,7 @@ export async function getPendingFriendRequests(userId: string): Promise<FriendRe
           profileImage: senderData?.profileImage || null,
         },
         message: data.message || '',
-        createdAt: data.createdAt,
+        createdAt: data.createdAt.toDate(),
       };
     })
   );
