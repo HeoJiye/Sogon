@@ -1,8 +1,8 @@
-import { USER_RECORD } from '@/entities/user/model';
+import { USER_RECORD, UserSimpleDTO } from '@/entities/user/model';
 import { db } from '@/shard/lib/firebaseAdmin';
 import { NotFoundError } from '@/shard/model';
 
-import { FRIEND_RECORD, FriendResponseDTO } from '../model';
+import { FRIEND_RECORD } from '../model';
 
 async function getFriendIds(userId: string): Promise<string[]> {
   const friendsRef = db.collection(USER_RECORD).doc(userId).collection(FRIEND_RECORD);
@@ -20,7 +20,7 @@ async function getMutualFriendIds(curUserId: string, userId: string): Promise<st
   return curUserFriends.filter((friendId) => userFriends.includes(friendId));
 }
 
-export async function getFriends(curUserId: string, userId: string): Promise<FriendResponseDTO[]> {
+export async function getFriends(curUserId: string, userId: string): Promise<UserSimpleDTO[]> {
   if (!(await db.collection(USER_RECORD).doc(userId).get()).exists) {
     throw new NotFoundError('찾을 수 없는 사용자입니다.');
   }
@@ -30,7 +30,7 @@ export async function getFriends(curUserId: string, userId: string): Promise<Fri
   return Promise.all(
     friends.map(async (friendId) => {
       const doc = await db.collection(USER_RECORD).doc(friendId).get();
-      const { nickname, profileImage } = doc.data() as FriendResponseDTO;
+      const { nickname, profileImage } = doc.data() as UserSimpleDTO;
 
       return {
         userId: friendId,
