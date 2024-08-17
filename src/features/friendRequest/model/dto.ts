@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { UserSimpleDTO } from '@/entities/user/model';
+
 import { FriendRequestStatus } from './schema';
 
 export type SendFriendRequestDTO = {
@@ -15,5 +17,12 @@ export type SendFriendResponseDTO = {
   senderId: string;
   receiverId: string;
   status: FriendRequestStatus;
+  createdAt: Date;
+};
+
+export type FriendRequestResponseDTO = {
+  requestId: string;
+  sender: UserSimpleDTO;
+  message: string;
   createdAt: Date;
 };

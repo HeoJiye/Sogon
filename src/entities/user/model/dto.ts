@@ -37,3 +37,9 @@ export type ProfileResponseDTO = {
   bio: string;
   status: UserReleationStatus;
 };
+
+export type UserSimpleDTO = {
+  userId: string;
+  nickname: string;
+  profileImage: string | null;
+};
