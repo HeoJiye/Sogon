@@ -36,7 +36,7 @@ export async function getFriends(curUserId: string, userId: string): Promise<Use
         userId: friendId,
         nickname,
         profileImage,
-      };
+      } satisfies UserSimpleDTO;
     })
   );
 }

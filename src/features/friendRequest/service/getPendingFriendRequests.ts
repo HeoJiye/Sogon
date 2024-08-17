@@ -29,7 +29,7 @@ export async function getPendingFriendRequests(userId: string): Promise<FriendRe
         },
         message: data.message || '',
         createdAt: data.createdAt.toDate(),
-      };
+      } satisfies FriendRequestResponseDTO;
     })
   );
 }
