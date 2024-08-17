@@ -13,15 +13,15 @@ export async function getFriendIds(userId: string): Promise<string[]> {
 
 async function getMutualFriendIds(curUserId: string, userId: string): Promise<string[]> {
   if (curUserId === userId) {
-    return getFriendIds(userId);
+    return [userId, ...(await getFriendIds(userId))];
   }
-  const curUserFriends = await getFriendIds(curUserId);
+  const visuableUsers = [curUserId, ...(await getFriendIds(curUserId))];
 
   const snapshot = await db
     .collection(USER_RECORD)
     .doc(userId)
     .collection(FRIEND_RECORD)
-    .where('__name__', 'in', curUserFriends)
+    .where('__name__', 'in', visuableUsers)
     .get();
 
   return snapshot.docs.map((doc) => doc.id);
