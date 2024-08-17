@@ -4,10 +4,10 @@ import { addFriend, removeFriend } from '@/features/friend/service';
 import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
 import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shard/lib/middleware';
 
-async function addFriendGateway(request: NextRequest, { params }: { params: { uid: string } }) {
+async function addFriendGateway(request: NextRequest, { params }: { params: { fid: string } }) {
   try {
     const currentUserId = getUserId(request);
-    const friendId = params.uid;
+    const friendId = params.fid;
 
     return NextResponse.json(await addFriend(currentUserId, friendId), { status: 201 });
   } catch (error) {
@@ -15,10 +15,10 @@ async function addFriendGateway(request: NextRequest, { params }: { params: { ui
   }
 }
 
-async function removeFriendGateway(request: NextRequest, { params }: { params: { uid: string } }) {
+async function removeFriendGateway(request: NextRequest, { params }: { params: { fid: string } }) {
   try {
     const currentUserId = getUserId(request);
-    const friendId = params.uid;
+    const friendId = params.fid;
 
     await removeFriend(currentUserId, friendId);
 
