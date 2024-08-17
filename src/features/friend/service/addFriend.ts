@@ -2,6 +2,7 @@ import { QuerySnapshot, Timestamp } from 'firebase-admin/firestore';
 
 import { pushFriendNoti } from '@/entities/notification/service';
 import { USER_RECORD } from '@/entities/user/model';
+import { FriendRequest } from '@/features/friendRequest/model';
 import { findPendingRequestSnapshot } from '@/features/friendRequest/service';
 import { db } from '@/shard/lib/firebaseAdmin';
 import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '@/shard/model';
@@ -29,7 +30,9 @@ async function acceptFriendRequest(userId: string, friendId: string, requestSnap
       createdAt: timestamp,
     } satisfies Friend);
 
-    requestSnapshot.docs.forEach((doc) => transaction.update(doc.ref, { status: 'accepted' }));
+    requestSnapshot.docs.forEach((doc) =>
+      transaction.update(doc.ref, { status: 'accepted' } satisfies Partial<FriendRequest>)
+    );
   });
 
   return date;
