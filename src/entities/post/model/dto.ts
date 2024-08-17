@@ -40,3 +40,15 @@ export type PostDetailsResponseDTO = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type CommentResponseDTO = {
+  commentId: string;
+  author: {
+    userId: string;
+    nickname: string;
+    profileImage: string;
+  };
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

@@ -1,6 +1,6 @@
 import { ForbiddenError } from '@/shard/model';
 
-import { getPostRefById } from './getPostById';
+import { getPostRefById } from './getPostRefById';
 
 export async function deletePost(userId: string, postId: string): Promise<void> {
   const postRef = await getPostRefById(postId);

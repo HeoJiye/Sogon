@@ -1,18 +1,10 @@
-import { DocumentReference } from 'firebase-admin/firestore';
-
 import { getSimpleUser } from '@/entities/user/service';
-import { getFriendIds, isFriend } from '@/features/friend/service';
+import { isFriend } from '@/features/friend/service';
+import { getLikedUsers } from '@/features/like/service';
 import { ForbiddenError } from '@/shard/model';
 
-import { LIKE_RECORD, Post, type PostDetailsResponseDTO } from '../model';
-import { getPostRefById } from './getPostById';
-
-async function getLikes(userId: string, postRef: DocumentReference): Promise<string[]> {
-  const friendIds = await getFriendIds(userId);
-  const likesRef = postRef.collection(LIKE_RECORD).where('userId', 'in', friendIds);
-
-  return (await likesRef.get()).docs.map((doc) => doc.id).filter(friendIds.includes);
-}
+import { Post, type PostDetailsResponseDTO } from '../model';
+import { getPostRefById } from './getPostRefById';
 
 export async function getPostDetails(userId: string, postId: string): Promise<PostDetailsResponseDTO> {
   const postRef = await getPostRefById(postId);
@@ -25,7 +17,7 @@ export async function getPostDetails(userId: string, postId: string): Promise<Po
 
   const post = (await postRef.get()).data() as Post;
 
-  const likes = await Promise.all((await getLikes(userId, postRef)).map(getSimpleUser));
+  const likes = await Promise.all((await getLikedUsers(userId, postRef)).map(getSimpleUser));
 
   return {
     postId,

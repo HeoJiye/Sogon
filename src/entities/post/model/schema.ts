@@ -10,11 +10,3 @@ export type Post = {
   createdAt: Timestamp;
   updatedAt: Timestamp;
 };
-
-export const LIKE_RECORD = 'likes' as const;
-
-export type Like = {
-  userId: string;
-  postId: string;
-  createdAt: Timestamp;
-};

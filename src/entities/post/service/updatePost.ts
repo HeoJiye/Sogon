@@ -3,7 +3,7 @@ import { Timestamp } from 'firebase-admin/firestore';
 import { ForbiddenError } from '@/shard/model';
 
 import { type EditPostRequestDTO, type EditPostResponseDTO, Post } from '../model';
-import { getPostRefById } from './getPostById';
+import { getPostRefById } from './getPostRefById';
 
 export async function updatePost(
   userId: string,
