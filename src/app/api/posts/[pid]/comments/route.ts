@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { EditCommentRequestDTO, editCommentRequestSchema } from '@/features/comment/model';
-import { getComments } from '@/features/comment/service';
-import { createComment } from '@/features/comment/service/createComment';
+import { createComment, getComments } from '@/features/comment/service';
 import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,

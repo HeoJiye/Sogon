@@ -7,7 +7,7 @@ import { COMMENT_RECORD, Comment, EditCommentRequestDTO, EditCommentResponseDTO 
 export async function createComment(
   userId: string,
   postId: string,
-  data: EditCommentRequestDTO
+  { content }: EditCommentRequestDTO
 ): Promise<EditCommentResponseDTO> {
   const postRef = await getPostRefById(postId);
 
@@ -15,7 +15,7 @@ export async function createComment(
 
   const commentRef = await postRef.collection(COMMENT_RECORD).add({
     authorId: userId,
-    content: data.content,
+    content,
     createdAt: timestamp,
     updatedAt: timestamp,
   } satisfies Comment);
