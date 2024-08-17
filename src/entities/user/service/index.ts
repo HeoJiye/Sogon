@@ -1,3 +1,4 @@
-export { default as createProfile } from './createProfile';
-export { default as updateProfile } from './updateProfile';
-export { default as getProfile } from './getProfile';
+export * from './createProfile';
+export * from './updateProfile';
+export * from './getProfile';
+export * from './getSimpleUser';

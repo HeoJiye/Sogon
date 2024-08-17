@@ -1,14 +1,10 @@
 import { z } from 'zod';
 
-export type Author = {
-  userId: string;
-  nickname: string;
-  profileImage: string | null;
-};
+import { UserSimpleDTO } from '@/entities/user/model';
 
 export type PostResponseDTO = {
   postId: string;
-  author: Author;
+  author: UserSimpleDTO;
   content: string;
   imageUrls: string[];
   likeCount: number;

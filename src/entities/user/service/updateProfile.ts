@@ -5,7 +5,7 @@ import { NotFoundError } from '@/shard/model';
 
 import { type EditProfileRequestDTO, type EditProfileResponseDTO, USER_RECORD, type User } from '../model';
 
-async function updateProfile(
+export async function updateProfile(
   userId: string,
   { nickname, profileImage, bio }: EditProfileRequestDTO
 ): Promise<EditProfileResponseDTO> {
@@ -31,5 +31,3 @@ async function updateProfile(
     updatedAt: editedUser.updatedAt.toDate(),
   } satisfies EditProfileResponseDTO;
 }
-
-export default updateProfile;

@@ -5,7 +5,7 @@ import { ConflictError } from '@/shard/model';
 
 import { type EditProfileRequestDTO, type EditProfileResponseDTO, USER_RECORD, type User } from '../model';
 
-async function createProfile(
+export async function createProfile(
   userId: string,
   { nickname, profileImage, bio }: EditProfileRequestDTO
 ): Promise<EditProfileResponseDTO> {
@@ -34,5 +34,3 @@ async function createProfile(
     updatedAt: editedUser.updatedAt.toDate(),
   };
 }
-
-export default createProfile;

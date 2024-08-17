@@ -1,9 +1,10 @@
-import { USER_RECORD, User } from '@/entities/user/model';
+import { USER_RECORD, UserSimpleDTO } from '@/entities/user/model';
+import { getSimpleUser } from '@/entities/user/service';
 import { db } from '@/shard/lib/firebaseAdmin';
 
-import { Author, POST_RECORD, type Post, type PostResponseDTO } from '../model';
+import { POST_RECORD, type Post, type PostResponseDTO } from '../model';
 
-function generatePostResponseDTO(postId: string, post: Post, author: Author): PostResponseDTO {
+function generatePostResponseDTO(postId: string, post: Post, author: UserSimpleDTO): PostResponseDTO {
   return {
     postId,
     author,
@@ -20,14 +21,7 @@ export async function getUserPosts(userId: string): Promise<PostResponseDTO[]> {
   const postsRef = db.collection(USER_RECORD).doc(userId).collection(POST_RECORD);
   const postsSnapshot = await postsRef.get();
 
-  const UserRecord = db.collection(USER_RECORD).doc(userId);
-  const userSnapshot = await UserRecord.get();
-  const user = userSnapshot.data() as User;
-  const author: Author = {
-    userId,
-    nickname: user.nickname,
-    profileImage: user.profileImage ?? null,
-  };
+  const author = await getSimpleUser(userId);
 
   return postsSnapshot.docs
     .map((postDoc) => {
