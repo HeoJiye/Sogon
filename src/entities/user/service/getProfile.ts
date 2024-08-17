@@ -26,7 +26,7 @@ async function getFriendStatus(curUserId: string, userId: string): Promise<UserR
   return 'none';
 }
 
-async function getProfile(curUserId: string, userId: string): Promise<ProfileResponseDTO> {
+export async function getProfile(curUserId: string, userId: string): Promise<ProfileResponseDTO> {
   const userRef = db.collection(USER_RECORD).doc(userId);
   const doc = await userRef.get();
   if (!doc.exists) {
@@ -38,5 +38,3 @@ async function getProfile(curUserId: string, userId: string): Promise<ProfileRes
 
   return { userId, ...user, status };
 }
-
-export default getProfile;

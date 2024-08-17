@@ -1,16 +1,12 @@
 import { z } from 'zod';
 
-export type EditProfileRequestDTO = {
-  nickname: string;
-  profileImage: string;
-  bio: string;
-};
-
 export const editProfileRequestSchema = z.object({
   nickname: z.string().max(20),
   profileImage: z.string().url().optional(),
-  bio: z.string().max(50).nullable(),
+  bio: z.string().max(50),
 });
+
+export type EditProfileRequestDTO = z.infer<typeof editProfileRequestSchema>;
 
 export type EditProfileResponseDTO = {
   userId: string;
@@ -20,13 +16,6 @@ export type EditProfileResponseDTO = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-export const editProfileResponseSchema = z.object({
-  userId: z.string(),
-  nickname: z.string(),
-  profileImage: z.string().url(),
-  bio: z.string(),
-});
 
 export type UserReleationStatus = 'self' | 'friends' | 'pending' | 'none';
 
