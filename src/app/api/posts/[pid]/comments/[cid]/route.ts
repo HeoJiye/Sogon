@@ -40,4 +40,5 @@ export const PUT = handler(
   validateMiddleware(editCommentRequestSchema),
   updateCommentGateway
 );
+
 export const DELETE = handler(tokenMiddleware, emailVerifiedMiddleware, deleteCommentGateway);
