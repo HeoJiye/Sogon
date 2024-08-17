@@ -1,7 +1,18 @@
+import { NotificationStatus, NotificationType } from './schema';
+
 export type NotificationResponseDTO = {
   notificationId: string;
-  type: 'friend' | 'friend-request' | 'like' | 'comment';
+  type: NotificationType;
   url: string;
   message: string;
+  createdAt: Date;
+};
+
+export type NotificationUpdateResponseDTO = {
+  notificationId: string;
+  type: NotificationType;
+  url: string;
+  message: string;
+  status: NotificationStatus;
   createdAt: Date;
 };
