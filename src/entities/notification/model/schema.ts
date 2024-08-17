@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
-export const NOTIFICATION_RECORD = 'users' as const;
+export const NOTIFICATION_RECORD = 'notifications' as const;
 
 export type NotificationType = 'friend' | 'friend-request' | 'like' | 'comment';
 
