@@ -1,6 +1,5 @@
 import { getSimpleUser } from '@/entities/user/service';
 import { isFriend } from '@/features/friend/service';
-import { getLikedUsers } from '@/features/like/service';
 import { ForbiddenError } from '@/shard/model';
 
 import { Post, type PostDetailsResponseDTO } from '../model';
@@ -17,14 +16,11 @@ export async function getPostDetails(userId: string, postId: string): Promise<Po
 
   const post = (await postRef.get()).data() as Post;
 
-  const likes = await Promise.all((await getLikedUsers(userId, postRef)).map(getSimpleUser));
-
   return {
     postId,
     author: await getSimpleUser(authorId),
     content: post.content,
     imageUrls: post.imageUrls || [],
-    likes,
     createdAt: post.createdAt.toDate(),
     updatedAt: post.updatedAt.toDate(),
   };

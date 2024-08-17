@@ -33,7 +33,6 @@ export type PostDetailsResponseDTO = {
   author: UserSimpleDTO;
   content: string;
   imageUrls: string[];
-  likes: UserSimpleDTO[];
   createdAt: Date;
   updatedAt: Date;
 };
