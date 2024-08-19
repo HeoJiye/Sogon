@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { Alert } from '@/shard/ui';
+import { Alert } from '@/shared/ui';
 
 import './globals.css';
 

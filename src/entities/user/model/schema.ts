@@ -1,23 +1,11 @@
-import { FriendRequest } from '@/features/friend/model/schema';
+import { Timestamp } from 'firebase-admin/firestore';
 
 export const USER_RECORD = 'users' as const;
 
 export type User = {
-  nickname?: string;
-  profileImage?: string;
-  bio?: string;
-  FriendRequests: FriendRequest[];
-  createdAt: Date;
-  updatedAt: Date;
+  nickname: string;
+  profileImage: string | null;
+  bio: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 };
-
-export function generateInitialUser(): User {
-  return {
-    nickname: '',
-    profileImage: '',
-    bio: '',
-    FriendRequests: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-}
