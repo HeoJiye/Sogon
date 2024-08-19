@@ -1,6 +1,6 @@
 import { USER_RECORD } from '@/entities/user/model';
-import { db } from '@/shard/lib/firebaseAdmin';
-import { BadRequestError, ConflictError, NotFoundError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { BadRequestError, ConflictError, NotFoundError } from '@/shared/model';
 
 import { NOTIFICATION_RECORD, type Notification, type NotificationUpdateResponseDTO } from '../model';
 

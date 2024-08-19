@@ -2,9 +2,9 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { getUserPosts } from '@/entities/post/service';
 import { isFriend } from '@/features/friend/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
-import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shard/lib/middleware';
-import { ForbiddenError } from '@/shard/model';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
+import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shared/lib/middleware';
+import { ForbiddenError } from '@/shared/model';
 
 async function getUserPostsGateway(request: NextRequest, { params }: { params: { uid: string } }) {
   try {

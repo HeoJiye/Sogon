@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
-import { ForbiddenError } from '@/shard/model';
+import { ForbiddenError } from '@/shared/model';
 
 import { type EditPostRequestDTO, type EditPostResponseDTO, Post } from '../model';
 import { getPostRefById } from './getPostRefById';

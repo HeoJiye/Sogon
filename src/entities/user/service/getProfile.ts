@@ -1,5 +1,5 @@
-import { db } from '@/shard/lib/firebaseAdmin';
-import { NotFoundError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { NotFoundError } from '@/shared/model';
 
 import { ProfileResponseDTO, USER_RECORD, type User, UserReleationStatus } from '../model';
 

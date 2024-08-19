@@ -1,6 +1,6 @@
 import { USER_RECORD } from '@/entities/user/model';
 import { FRIEND_RECORD } from '@/features/friend/model';
-import { db } from '@/shard/lib/firebaseAdmin';
+import { db } from '@/shared/lib/firebaseAdmin';
 
 import { type PostResponseDTO } from '../model';
 import { getUserPosts } from './getUserPosts';

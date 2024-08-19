@@ -4,8 +4,8 @@ import { pushFriendNoti } from '@/entities/notification/service';
 import { USER_RECORD } from '@/entities/user/model';
 import { FriendRequest } from '@/features/friendRequest/model';
 import { findPendingRequestSnapshot } from '@/features/friendRequest/service';
-import { db } from '@/shard/lib/firebaseAdmin';
-import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { BadRequestError, ConflictError, ForbiddenError, NotFoundError } from '@/shared/model';
 
 import { AddFriendResponseDTO, FRIEND_RECORD, Friend } from '../model';
 

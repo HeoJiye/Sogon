@@ -1,6 +1,6 @@
 import { USER_RECORD, UserSimpleDTO } from '@/entities/user/model';
 import { getSimpleUser } from '@/entities/user/service';
-import { db } from '@/shard/lib/firebaseAdmin';
+import { db } from '@/shared/lib/firebaseAdmin';
 
 import { POST_RECORD, type Post, type PostResponseDTO } from '../model';
 

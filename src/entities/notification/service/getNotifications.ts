@@ -1,5 +1,5 @@
 import { USER_RECORD } from '@/entities/user/model';
-import { db } from '@/shard/lib/firebaseAdmin';
+import { db } from '@/shared/lib/firebaseAdmin';
 
 import { NOTIFICATION_RECORD, type Notification, type NotificationResponseDTO } from '../model';
 

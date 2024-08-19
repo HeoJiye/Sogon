@@ -1,4 +1,4 @@
-import { db } from '@/shard/lib/firebaseAdmin';
+import { db } from '@/shared/lib/firebaseAdmin';
 
 import { USER_RECORD, User, UserSimpleDTO } from '../model';
 

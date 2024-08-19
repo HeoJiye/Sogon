@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 
-import { auth } from '@/shard/lib/firebaseAdmin';
-import { ForbiddenError } from '@/shard/model';
+import { auth } from '@/shared/lib/firebaseAdmin';
+import { ForbiddenError } from '@/shared/model';
 
 import gatewayErrorHandler from './gatewayErrorHandler';
 import { getUserId } from './middleware.auth';

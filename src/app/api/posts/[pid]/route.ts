@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { EditPostRequestDTO, editPostRequestSchema } from '@/entities/post/model';
 import { deletePost, updatePost } from '@/entities/post/service';
 import { getPostDetails } from '@/entities/post/service/getPostDetail';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
   getBody,
@@ -11,7 +11,7 @@ import {
   handler,
   tokenMiddleware,
   validateMiddleware,
-} from '@/shard/lib/middleware';
+} from '@/shared/lib/middleware';
 
 async function updatePostGateway(request: NextRequest, { params }: { params: { pid: string } }) {
   try {

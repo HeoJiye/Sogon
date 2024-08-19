@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { getPendingFriendRequests } from '@/features/friendRequest/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
-import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shard/lib/middleware';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
+import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shared/lib/middleware';
 
 async function getPendingFriendRequestsGateway(request: NextRequest) {
   try {

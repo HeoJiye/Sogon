@@ -1,8 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { addFriend, removeFriend } from '@/features/friend/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
-import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shard/lib/middleware';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
+import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shared/lib/middleware';
 
 async function addFriendGateway(request: NextRequest, { params }: { params: { fid: string } }) {
   try {

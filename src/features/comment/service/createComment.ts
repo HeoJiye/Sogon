@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase-admin/firestore';
 
 import { Post } from '@/entities/post/model';
 import { getPostRefById } from '@/entities/post/service';
-import { db } from '@/shard/lib/firebaseAdmin';
+import { db } from '@/shared/lib/firebaseAdmin';
 
 import { COMMENT_RECORD, Comment, EditCommentRequestDTO, EditCommentResponseDTO } from '../model';
 

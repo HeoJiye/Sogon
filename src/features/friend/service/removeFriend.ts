@@ -1,6 +1,6 @@
 import { USER_RECORD } from '@/entities/user/model';
-import { db } from '@/shard/lib/firebaseAdmin';
-import { BadRequestError, ForbiddenError, NotFoundError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { BadRequestError, ForbiddenError, NotFoundError } from '@/shared/model';
 
 import { FRIEND_RECORD } from '../model';
 

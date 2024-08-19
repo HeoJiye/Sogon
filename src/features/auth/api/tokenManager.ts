@@ -1,7 +1,7 @@
 import { deleteCookie, setCookie } from 'cookies-next';
 import { NextOrObserver, User, onIdTokenChanged } from 'firebase/auth';
 
-import { auth } from '@/shard/lib/firebase';
+import { auth } from '@/shared/lib/firebase';
 
 import { TOKEN_COOKIE_NAME, TOKEN_COOKIE_OPTIONS } from './tokenManager.config';
 

@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { EditPostRequestDTO, editPostRequestSchema } from '@/entities/post/model';
 import { createPost, getAllPosts } from '@/entities/post/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
   getBody,
@@ -10,7 +10,7 @@ import {
   handler,
   tokenMiddleware,
   validateMiddleware,
-} from '@/shard/lib/middleware';
+} from '@/shared/lib/middleware';
 
 async function getPostsGateway(request: NextRequest) {
   try {

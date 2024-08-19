@@ -1,7 +1,7 @@
 import { DocumentReference } from 'firebase-admin/firestore';
 
-import { db } from '@/shard/lib/firebaseAdmin';
-import { NotFoundError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { NotFoundError } from '@/shared/model';
 
 import { POST_RECORD } from '../model';
 
