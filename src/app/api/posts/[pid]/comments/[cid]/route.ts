@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { EditCommentRequestDTO, editCommentRequestSchema } from '@/features/comment/model';
 import { deleteComment, updateComment } from '@/features/comment/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
-import { emailVerifiedMiddleware, handler } from '@/shard/lib/middleware';
-import { getUserId, tokenMiddleware } from '@/shard/lib/middleware.auth';
-import { getBody, validateMiddleware } from '@/shard/lib/middleware.validate';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
+import { emailVerifiedMiddleware, handler } from '@/shared/lib/middleware';
+import { getUserId, tokenMiddleware } from '@/shared/lib/middleware.auth';
+import { getBody, validateMiddleware } from '@/shared/lib/middleware.validate';
 
 async function updateCommentGateway(request: NextRequest, { params }: { params: { pid: string; cid: string } }) {
   try {

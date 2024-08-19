@@ -29,4 +29,4 @@ runs:
     - name: ④ firebase-adminsdk 설정
       shell: bash
       run: |
-        echo "${{ inputs.FIREBASE_ADMINSDK_JSON }}" > src/shard/lib/firebase-adminsdk.json
+        echo "${{ inputs.FIREBASE_ADMINSDK_JSON }}" > src/shared/lib/firebase-adminsdk.json

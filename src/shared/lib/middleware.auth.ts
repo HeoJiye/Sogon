@@ -1,8 +1,8 @@
 import { FirebaseAuthError } from 'firebase-admin/auth';
 import type { NextRequest } from 'next/server';
 
-import { auth } from '@/shard/lib/firebaseAdmin';
-import { FIREBASE_AUTH_ERROR, InternalServerError, UnauthorizedError } from '@/shard/model';
+import { auth } from '@/shared/lib/firebaseAdmin';
+import { FIREBASE_AUTH_ERROR, InternalServerError, UnauthorizedError } from '@/shared/model';
 
 export const UID_HEADER_FIELD = 'x-uid';
 

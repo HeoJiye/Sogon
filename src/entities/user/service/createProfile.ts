@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
-import { db } from '@/shard/lib/firebaseAdmin';
-import { ConflictError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { ConflictError } from '@/shared/model';
 
 import { type EditProfileRequestDTO, type EditProfileResponseDTO, USER_RECORD, type User } from '../model';
 

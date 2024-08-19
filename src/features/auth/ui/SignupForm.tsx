@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input, LinkButton, Logo, Modal } from '@/shard/ui';
+import { Button, Input, LinkButton, Logo, Modal } from '@/shared/ui';
 
 import { useSignupForm } from '../lib';
 

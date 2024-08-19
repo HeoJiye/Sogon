@@ -1,4 +1,4 @@
-import { ForbiddenError } from '@/shard/model';
+import { ForbiddenError } from '@/shared/model';
 
 import { getPostRefById } from './getPostRefById';
 

@@ -1,6 +1,6 @@
 import { getSimpleUser } from '@/entities/user/service';
 import { isFriend } from '@/features/friend/service';
-import { ForbiddenError } from '@/shard/model';
+import { ForbiddenError } from '@/shared/model';
 
 import { Post, type PostDetailsResponseDTO } from '../model';
 import { getPostRefById } from './getPostRefById';

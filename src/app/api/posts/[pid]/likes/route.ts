@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { createLike, deleteLike, getLikedUsers } from '@/features/like/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
-import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shard/lib/middleware';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
+import { emailVerifiedMiddleware, getUserId, handler, tokenMiddleware } from '@/shared/lib/middleware';
 
 async function createLikeGateway(request: NextRequest, { params }: { params: { pid: string } }) {
   try {

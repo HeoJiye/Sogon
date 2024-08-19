@@ -1,7 +1,7 @@
 import { Post } from '@/entities/post/model';
 import { getPostRefById } from '@/entities/post/service';
-import { db } from '@/shard/lib/firebaseAdmin';
-import { BadRequestError } from '@/shard/model/ApiErrors';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { BadRequestError } from '@/shared/model/ApiErrors';
 
 import { LIKE_RECORD } from '../model';
 

@@ -1,7 +1,7 @@
 import { FirebaseError } from 'firebase/app';
 
-import alert from '@/shard/lib/alert';
-import { FIREBASE_AUTH_ERROR_MESSAGE } from '@/shard/model/firebaseErrors';
+import alert from '@/shared/lib/alert';
+import { FIREBASE_AUTH_ERROR_MESSAGE } from '@/shared/model/firebaseErrors';
 
 export function errorHandler(error: unknown) {
   const message =

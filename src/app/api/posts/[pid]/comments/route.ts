@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { EditCommentRequestDTO, editCommentRequestSchema } from '@/features/comment/model';
 import { createComment, getComments } from '@/features/comment/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
   getBody,
@@ -10,7 +10,7 @@ import {
   handler,
   tokenMiddleware,
   validateMiddleware,
-} from '@/shard/lib/middleware';
+} from '@/shared/lib/middleware';
 
 async function getCommentGateway(request: NextRequest, { params }: { params: { pid: string } }) {
   try {

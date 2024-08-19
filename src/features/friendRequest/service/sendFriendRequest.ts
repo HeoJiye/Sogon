@@ -2,8 +2,8 @@ import { Timestamp } from 'firebase-admin/firestore';
 
 import { pushFriendRequestNoti } from '@/entities/notification/service';
 import { USER_RECORD } from '@/entities/user/model';
-import { db } from '@/shard/lib/firebaseAdmin';
-import { ConflictError, ForbiddenError, NotFoundError } from '@/shard/model';
+import { db } from '@/shared/lib/firebaseAdmin';
+import { ConflictError, ForbiddenError, NotFoundError } from '@/shared/model';
 
 import { FRIEND_REQUEST_RECORD, FriendRequest, SendFriendResponseDTO } from '../model';
 

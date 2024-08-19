@@ -1,5 +1,5 @@
 import { USER_RECORD, User } from '@/entities/user/model';
-import { db } from '@/shard/lib/firebaseAdmin';
+import { db } from '@/shared/lib/firebaseAdmin';
 
 import { FRIEND_REQUEST_RECORD, FriendRequest, type FriendRequestResponseDTO } from '../model';
 

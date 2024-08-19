@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
 import { getPostRefById } from '@/entities/post/service';
-import { ForbiddenError, NotFoundError } from '@/shard/model';
+import { ForbiddenError, NotFoundError } from '@/shared/model';
 
 import { COMMENT_RECORD, Comment, EditCommentRequestDTO, EditCommentResponseDTO } from '../model';
 

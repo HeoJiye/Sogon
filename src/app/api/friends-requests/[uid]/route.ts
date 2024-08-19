@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { SendFriendRequestDTO, sendFriendRequestSchema } from '@/features/friendRequest/model';
 import { sendFriendRequest } from '@/features/friendRequest/service';
-import gatewayErrorHandler from '@/shard/lib/gatewayErrorHandler';
+import gatewayErrorHandler from '@/shared/lib/gatewayErrorHandler';
 import {
   emailVerifiedMiddleware,
   getBody,
@@ -10,7 +10,7 @@ import {
   handler,
   tokenMiddleware,
   validateMiddleware,
-} from '@/shard/lib/middleware';
+} from '@/shared/lib/middleware';
 
 async function sendFriendRequestGateway(request: NextRequest, { params }: { params: { uid: string } }) {
   try {

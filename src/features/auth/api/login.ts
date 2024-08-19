@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-import { auth } from '@/shard/lib/firebase';
+import { auth } from '@/shared/lib/firebase';
 
 import type { AuthDTO } from '../model';
 import { errorHandler } from './errorHandler';
