@@ -2,7 +2,9 @@ import { FirebaseAuthError } from 'firebase-admin/auth';
 import type { NextRequest } from 'next/server';
 
 import { auth } from '@/shared/lib/firebaseAdmin';
-import { FIREBASE_AUTH_ERROR, InternalServerError, UnauthorizedError } from '@/shared/model';
+import { InternalServerError, UnauthorizedError } from '@/shared/model';
+
+import { FIREBASE_ADMIN_AUTH_ERROR_MESSAGE, isManagedAdminAuthErrorCode } from '../model/firebaseAdminErrors';
 
 export const UID_HEADER_FIELD = 'x-uid';
 
@@ -20,16 +22,11 @@ export async function tokenMiddleware(request: NextRequest, context: unknown, ne
       return new InternalServerError('인증 검증 과정에서 알 수 없는 오류가 발생했습니다.').toResponse();
     }
 
-    const firebaseServerErrorCodes = [
-      FIREBASE_AUTH_ERROR.INTERNAL_ERROR,
-      FIREBASE_AUTH_ERROR.NETWORK_REQUEST_FAILED,
-      FIREBASE_AUTH_ERROR.TOO_MANY_REQUESTS,
-    ];
-
-    if (firebaseServerErrorCodes.includes(error.code)) {
-      return new InternalServerError('Firebase 서버에 문제가 있습니다. 잠시 후 다시 시도해주세요.').toResponse();
+    if (isManagedAdminAuthErrorCode(error.code)) {
+      return new UnauthorizedError(FIREBASE_ADMIN_AUTH_ERROR_MESSAGE[error.code]).toResponse();
     }
-    return new UnauthorizedError('토큰이 유효하지 않습니다. 다시 로그인해주세요.').toResponse();
+
+    return new InternalServerError('서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.').toResponse();
   }
   return next();
 }

@@ -1,4 +1,5 @@
-import { errorHandler } from './errorHandler';
+import clientErrorHandler from '@/shared/lib/clientErrorHandler';
+
 import { sessionLogout } from './tokenManager';
 
 export async function logout(): Promise<boolean> {
@@ -6,7 +7,7 @@ export async function logout(): Promise<boolean> {
     await sessionLogout();
     return true;
   } catch (error) {
-    errorHandler(error);
+    clientErrorHandler(error);
     return false;
   }
 }
