@@ -20,6 +20,7 @@ runs:
         version: 8
 
     - name: ③ 의존성 설치
+      shell: bash
       run: pnpm install
 
     - name: ④ env 파일 설정
