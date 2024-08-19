@@ -1,9 +1,9 @@
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 
+import clientErrorHandler from '@/shared/lib/clientErrorHandler';
 import { auth } from '@/shared/lib/firebase';
 
 import type { AuthDTO } from '../model';
-import { errorHandler } from './errorHandler';
 import { sessionLogin } from './tokenManager';
 
 export async function signup({ email, password }: AuthDTO): Promise<boolean> {
@@ -13,7 +13,7 @@ export async function signup({ email, password }: AuthDTO): Promise<boolean> {
     sendEmailVerification(user);
     return true;
   } catch (error) {
-    errorHandler(error);
+    clientErrorHandler(error);
     return false;
   }
 }

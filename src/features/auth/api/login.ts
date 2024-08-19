@@ -6,10 +6,10 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
+import clientErrorHandler from '@/shared/lib/clientErrorHandler';
 import { auth } from '@/shared/lib/firebase';
 
 import type { AuthDTO } from '../model';
-import { errorHandler } from './errorHandler';
 import { sessionLogin } from './tokenManager';
 
 type LoginOption = {
@@ -39,7 +39,7 @@ export async function login({ email, password }: AuthDTO, option?: LoginOption):
     }
     return true;
   } catch (error) {
-    errorHandler(error);
+    clientErrorHandler(error);
     return false;
   }
 }
