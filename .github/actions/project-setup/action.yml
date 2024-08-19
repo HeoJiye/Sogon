@@ -9,24 +9,26 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: ① pnpm 다운로드
-      uses: pnpm/action-setup@v4
-      with:
-        version: 8
-        run_install: false # 캐시를 사용하기 위해 false
-
-    - name: ② node 설정
+    - name: ① Node.js 설치
       uses: actions/setup-node@v4
       with:
         node-version: 18
-        cache: 'pnpm' # pnpm-lock.yaml 사용해 캐시
 
-    - name: ③ env 파일 설정
+    - name: ② pnpm 다운로드
+      uses: pnpm/action-setup@v4
+      with:
+        version: 8
+
+    - name: ③ 의존성 설치
+      shell: bash
+      run: pnpm install
+
+    - name: ④ env 파일 설정
       shell: bash
       run: |
         echo "${{ inputs.PROJECT_ENV }}" > .env
 
-    - name: ④ firebase-adminsdk 설정
+    - name: ⑤ firebase-adminsdk 설정
       shell: bash
       run: |
         echo "${{ inputs.FIREBASE_ADMINSDK_JSON }}" > src/shared/lib/firebase-adminsdk.json
