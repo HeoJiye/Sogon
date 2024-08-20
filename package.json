@@ -27,6 +27,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.2",
+    "undici": "^6.19.8",
     "zod": "^3.23.8",
     "zustand": "^4.5.4"
   },
