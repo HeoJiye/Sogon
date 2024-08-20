@@ -24,7 +24,8 @@ jobs:
         run: pnpm install
 
       - name: ④ 프로젝트 빌드 실행
-        run: pnpm run build
+        run: |
+          docker build -t ci-build .
 
   unit-test:
     name: ✅ 단위 테스트를 한다
