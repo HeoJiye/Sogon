@@ -10,7 +10,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {},
-  args: {},
+  args: { onSubmit: () => {} },
 } satisfies Meta<typeof ProfileForm>;
 
 export default meta;

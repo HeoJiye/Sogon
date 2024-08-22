@@ -23,7 +23,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={id}
           ref={ref} // ref 전달
           className={cn('textarea textarea-bordered mb-4 h-120 w-250 resize-none text-14', {
-            'input-error': error,
+            'textarea-error': error,
           })}
           {...props} // 나머지 props 전달
         />

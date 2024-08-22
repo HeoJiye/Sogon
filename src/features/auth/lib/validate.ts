@@ -1,4 +1,4 @@
-import { EASY_STRINGS, FORM_VALIDATION_MESSAGES } from '../model';
+import { EASY_STRINGS, FORM_VALIDATION_MESSAGES } from '@/shared/model/formValidationStrings';
 
 export const requiredValidation = {
   required: FORM_VALIDATION_MESSAGES.REQUIRED,

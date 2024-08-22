@@ -1,19 +1,31 @@
 import { Button, Input, Logo, Modal, ProfileImageInput, Textarea } from '@/shared/ui';
 
-export interface ProfileFormProps {}
+import { ProfileFormSchema, useProfileForm } from '../lib';
 
-function ProfileForm({}: ProfileFormProps) {
+export interface ProfileFormProps {
+  onSubmit: (formData: ProfileFormSchema) => void;
+}
+
+function ProfileForm({ onSubmit }: ProfileFormProps) {
+  const { register, handleSubmit, curProfileImage, formState } = useProfileForm();
+
   return (
     <Modal>
-      <div className='flex-center flex flex-col gap-36'>
+      <form className='flex-center flex flex-col gap-36' onSubmit={handleSubmit(onSubmit)}>
         <Logo />
-        <ProfileImageInput image={[]} />
+        <ProfileImageInput image={curProfileImage} {...register.profileImage} />
         <div className='flex-center flex flex-col gap-8'>
-          <Input id='nickname' label='이름' type='text' />
-          <Textarea id='bio' label='소개' />
+          <Input
+            id='nickname'
+            label='이름'
+            type='text'
+            error={formState.errors.nickname?.message}
+            {...register.nickname}
+          />
+          <Textarea id='bio' label='소개' error={formState.errors.bio?.message} {...register.bio} />
         </div>
         <Button type='submit'>회원 가입</Button>
-      </div>
+      </form>
     </Modal>
   );
 }
