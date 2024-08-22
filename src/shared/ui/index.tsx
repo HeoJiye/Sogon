@@ -18,3 +18,9 @@ export { default as CheckBox } from './CheckBox';
 
 export * from './Alert';
 export { default as Alert } from './Alert';
+
+export * from './Textarea';
+export { default as Textarea } from './Textarea';
+
+export * from './ProfileImageInput';
+export { default as ProfileImageInput } from './ProfileImageInput';
