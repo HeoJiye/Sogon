@@ -17,7 +17,7 @@
           "**/*.test.ts",
           "**/*.test.tsx",
           "**/*.spec.ts",
-          "**/*.stories.ts",
+          "**/*.stories.tsx",
           "jest.setup.ts",
           "tailwind.config.ts"
         ]
