@@ -1,20 +1,24 @@
-'use client';
+import { CookieValueTypes } from 'cookies-next';
 
 import { Button, CheckBox, Input, LinkButton, Logo, Modal } from '@/shared/ui';
 
-import { useLoginForm } from '../lib';
+import { LoginFormSchema, useLoginForm } from '../lib';
 
-export interface LoginFormProps {}
+export interface LoginFormProps {
+  email: CookieValueTypes;
+  keepLogin: CookieValueTypes;
+  onSubmit: (formData: LoginFormSchema) => void;
+}
 
-function LoginForm({}: LoginFormProps) {
-  const { register, formState, onSubmit } = useLoginForm();
+function LoginForm({ email, keepLogin, onSubmit }: LoginFormProps) {
+  const { register, formState, handleSubmit } = useLoginForm(email, keepLogin);
 
   return (
     <Modal>
       <div className='flex-center flex flex-col gap-48'>
         <Logo />
         <div className='flex-center flex flex-col gap-16'>
-          <form className='flex-center flex flex-col gap-36' onSubmit={onSubmit}>
+          <form className='flex-center flex flex-col gap-36' onSubmit={handleSubmit(onSubmit)}>
             <div className='flex-center flex flex-col gap-8'>
               <Input
                 id='email'

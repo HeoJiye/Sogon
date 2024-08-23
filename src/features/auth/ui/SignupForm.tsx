@@ -1,20 +1,20 @@
-'use client';
-
 import { Button, Input, LinkButton, Logo, Modal } from '@/shared/ui';
 
-import { useSignupForm } from '../lib';
+import { SignupFormSchema, useSignupForm } from '../lib';
 
-export interface SignupFormProps {}
+export interface SignupFormProps {
+  onSubmit: (formData: SignupFormSchema) => void;
+}
 
-function SignupForm({}: SignupFormProps) {
-  const { register, formState, onSubmit } = useSignupForm();
+function SignupForm({ onSubmit }: SignupFormProps) {
+  const { register, formState, handleSubmit } = useSignupForm();
 
   return (
     <Modal>
       <div className='flex-center flex flex-col gap-48'>
         <Logo />
         <div className='flex-center flex flex-col gap-16'>
-          <form className='flex-center flex flex-col gap-36' onSubmit={onSubmit}>
+          <form className='flex-center flex flex-col gap-36' onSubmit={handleSubmit(onSubmit)}>
             <div className='flex-center flex flex-col gap-8'>
               <Input
                 id='email'
@@ -38,7 +38,7 @@ function SignupForm({}: SignupFormProps) {
                 error={formState.errors.passwordConfirm?.message}
               />
             </div>
-            <Button type='submit'>회원 가입</Button>
+            <Button type='submit'>회원 가입 계속</Button>
           </form>
           <LinkButton href='/login'>로그인하기</LinkButton>
         </div>

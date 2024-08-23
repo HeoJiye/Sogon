@@ -8,7 +8,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 const Input = forwardRef<HTMLInputElement, InputProps>(({ id, label, error, ...props }: InputProps, ref) => (
   <div className='flex text-13 text-neutral'>
-    <label className={cn('h-30 w-100 font-semibold', { 'text-red-500': error })} htmlFor={id}>
+    <label className={cn('flex h-30 w-100 items-center font-semibold', { 'text-red-500': error })} htmlFor={id}>
       {label}
     </label>
     <div>

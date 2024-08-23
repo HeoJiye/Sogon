@@ -1,7 +1,6 @@
-import { getCookie } from 'cookies-next';
+import { CookieValueTypes } from 'cookies-next';
 import { useForm } from 'react-hook-form';
 
-import { login } from '../api';
 import { emailValidation, requiredValidation } from './validate';
 
 export interface LoginFormSchema {
@@ -11,21 +10,15 @@ export interface LoginFormSchema {
   keepLogin: boolean;
 }
 
-export function useLoginForm() {
+export function useLoginForm(email: CookieValueTypes, keepLogin: CookieValueTypes) {
   const { register, handleSubmit, watch, formState } = useForm<LoginFormSchema>({
     defaultValues: {
-      email: getCookie('email') ?? '',
+      email: email ?? '',
       password: '',
-      rememberEmail: getCookie('rememberEmail') === 'true',
-      keepLogin: getCookie('keepLogin') === 'true',
+      rememberEmail: !!email,
+      keepLogin: keepLogin === 'true',
     },
   });
-
-  const onSubmit = async ({ email, password, rememberEmail, keepLogin }: LoginFormSchema) => {
-    if (await login({ email, password }, { rememberEmail, keepLogin })) {
-      window.location.href = '/';
-    }
-  };
 
   return {
     register: {
@@ -36,6 +29,6 @@ export function useLoginForm() {
     },
     watch,
     formState,
-    onSubmit: handleSubmit(onSubmit),
+    handleSubmit,
   };
 }

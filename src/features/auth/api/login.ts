@@ -32,10 +32,8 @@ export async function login({ email, password }: AuthDTO, option?: LoginOption):
 
     if (option?.rememberEmail) {
       setCookie('email', email);
-      setCookie('rememberEmail', 'true');
     } else {
       deleteCookie('email');
-      deleteCookie('rememberEmail');
     }
     return true;
   } catch (error) {
