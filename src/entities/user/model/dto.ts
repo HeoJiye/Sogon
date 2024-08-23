@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const editProfileRequestSchema = z.object({
-  nickname: z.string().max(20),
+  nickname: z.string().max(10),
   profileImage: z.string().url().optional(),
   bio: z.string().max(50),
 });

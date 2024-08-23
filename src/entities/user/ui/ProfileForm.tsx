@@ -4,9 +4,10 @@ import { ProfileFormSchema, useProfileForm } from '../lib';
 
 export interface ProfileFormProps {
   onSubmit: (formData: ProfileFormSchema) => void;
+  buttonLabel?: string;
 }
 
-function ProfileForm({ onSubmit }: ProfileFormProps) {
+function ProfileForm({ onSubmit, buttonLabel = '제출' }: ProfileFormProps) {
   const { register, handleSubmit, curProfileImage, formState } = useProfileForm();
 
   return (
@@ -24,7 +25,7 @@ function ProfileForm({ onSubmit }: ProfileFormProps) {
           />
           <Textarea id='bio' label='소개' error={formState.errors.bio?.message} {...register.bio} />
         </div>
-        <Button type='submit'>회원 가입</Button>
+        <Button type='submit'>{buttonLabel}</Button>
       </form>
     </Modal>
   );

@@ -38,7 +38,7 @@ function SignupForm({ onSubmit }: SignupFormProps) {
                 error={formState.errors.passwordConfirm?.message}
               />
             </div>
-            <Button type='submit'>회원 가입</Button>
+            <Button type='submit'>회원 가입 계속</Button>
           </form>
           <LinkButton href='/login'>로그인하기</LinkButton>
         </div>
