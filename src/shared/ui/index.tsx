@@ -24,3 +24,6 @@ export { default as Textarea } from './Textarea';
 
 export * from './ProfileImageInput';
 export { default as ProfileImageInput } from './ProfileImageInput';
+
+export * from './Loading';
+export { default as Loading } from './Loading';
