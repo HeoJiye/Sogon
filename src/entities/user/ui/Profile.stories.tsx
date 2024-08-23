@@ -8,7 +8,9 @@ const meta = {
   title: '프로필/Profile',
   component: Profile,
   parameters: {
-    layout: 'centered',
+    viewport: {
+      defaultViewport: 'desktop',
+    },
   },
   tags: ['autodocs'],
   argTypes: {},
@@ -21,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 const data: ProfileResponseDTO = {
   userId: 'uid',
   nickname: 'nickname',
-  profileImage: 'https://example.com/profile-image.png',
+  profileImage: 'https://placehold.co/180',
   bio: 'bio',
   status: 'self',
 };
@@ -30,6 +32,20 @@ export const Default: Story = {
   render: ({ uid }: ProfileProps) => {
     const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
     queryClient.setQueryData(['profile', uid], data);
+
+    return (
+      <QueryClientProvider client={queryClient}>
+        <Profile uid={uid} />
+      </QueryClientProvider>
+    );
+  },
+  args: {},
+};
+
+export const Skeleton: Story = {
+  render: ({ uid }: ProfileProps) => {
+    const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity } } });
+    queryClient.setQueryData(['profile', uid], null);
 
     return (
       <QueryClientProvider client={queryClient}>

@@ -2,20 +2,32 @@ import cn from 'classnames';
 import { ButtonHTMLAttributes } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string;
   color?: 'default' | 'cancel';
+  skeleton?: boolean;
   children: React.ReactNode;
 }
 
-function Button({ color = 'default', children, ...props }: ButtonProps) {
+function Button({ className, color = 'default', skeleton, children, ...props }: ButtonProps) {
   return (
     <button
-      className={cn('hover:bg-neutral-focus btn animate-btn min-w-120 rounded-lg pl-16 pr-16', {
-        'btn-neutral': color === 'default',
-      })}
+      className={cn(
+        'btn min-w-120 rounded-lg pl-16 pr-16',
+        {
+          'btn-neutral': color === 'default',
+        },
+        {
+          'hover:bg-neutral-focus animate-btn': !skeleton,
+        },
+        {
+          'skeleton cursor-default border-none hover:skeleton': skeleton,
+        },
+        className
+      )}
       type='button'
       {...props}
     >
-      {children}
+      {skeleton || children}
     </button>
   );
 }
