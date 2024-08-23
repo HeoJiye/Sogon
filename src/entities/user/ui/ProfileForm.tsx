@@ -4,10 +4,11 @@ import { ProfileFormSchema, useProfileForm } from '../lib';
 
 export interface ProfileFormProps {
   onSubmit: (formData: ProfileFormSchema) => void;
+  onCancel: () => void;
   buttonLabel?: string;
 }
 
-function ProfileForm({ onSubmit, buttonLabel = '제출' }: ProfileFormProps) {
+function ProfileForm({ onSubmit, onCancel, buttonLabel = '제출' }: ProfileFormProps) {
   const { register, handleSubmit, curProfileImage, formState } = useProfileForm();
 
   return (
@@ -25,7 +26,12 @@ function ProfileForm({ onSubmit, buttonLabel = '제출' }: ProfileFormProps) {
           />
           <Textarea id='bio' label='소개' error={formState.errors.bio?.message} {...register.bio} />
         </div>
-        <Button type='submit'>{buttonLabel}</Button>
+        <div className='flex gap-24'>
+          <Button type='button' color='cancel' onClick={onCancel}>
+            취소
+          </Button>
+          <Button type='submit'>{buttonLabel}</Button>
+        </div>
       </form>
     </Modal>
   );
