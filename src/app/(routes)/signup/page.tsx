@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { createProfile } from '@/entities/user/api';
 import { ProfileFormSchema } from '@/entities/user/lib';
 import { ProfileForm } from '@/entities/user/ui';
-import { signup, signupCancel } from '@/features/auth/api';
+import { getCurUID, signup, signupCancel } from '@/features/auth/api';
 import { AuthDTO } from '@/features/auth/model';
 import { SignupForm } from '@/features/auth/ui';
 
@@ -30,7 +30,7 @@ export default function Signup() {
 
     const profileCreated = await createProfile(formData);
     if (profileCreated) {
-      router.push('/');
+      router.push(`/profile/${getCurUID()}`);
     } else {
       await signupCancel();
     }
