@@ -19,13 +19,13 @@ export type EditProfileResponseDTO = {
 
 export type UserReleationStatus = 'self' | 'friends' | 'pending' | 'none';
 
-export type ProfileResponseDTO = {
+export interface ProfileResponseDTO {
   userId: string;
   nickname: string;
   profileImage: string | null;
   bio: string;
   status: UserReleationStatus;
-};
+}
 
 export type UserSimpleDTO = {
   userId: string;

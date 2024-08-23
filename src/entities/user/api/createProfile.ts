@@ -1,6 +1,5 @@
-import axios from 'axios';
-
 import alert from '@/shared/lib/alert';
+import axiosClient from '@/shared/lib/axiosClient';
 import { uploadImageFile } from '@/shared/lib/firebase.storage';
 
 import { ProfileFormSchema } from '../lib';
@@ -20,15 +19,11 @@ export async function createProfile({ profileImage, nickname, bio }: ProfileForm
   }
 
   try {
-    axios.post(
-      '/api/users',
-      {
-        profileImage: profileURL,
-        nickname,
-        bio,
-      } satisfies EditProfileRequestDTO,
-      { withCredentials: true }
-    );
+    axiosClient.post('/api/users', {
+      profileImage: profileURL,
+      nickname,
+      bio,
+    } satisfies EditProfileRequestDTO);
     return true;
   } catch (error) {
     alert({ type: 'error', message: JSON.stringify(error) });
