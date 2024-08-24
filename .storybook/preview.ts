@@ -13,7 +13,6 @@ export const decorators = [
     attributeName: 'data-theme',
   }),
 ];
-
 const preview: Preview = {
   parameters: {
     controls: {
