@@ -2,13 +2,15 @@ import Image from 'next/image';
 
 import IconPath from '@/../public/icon.png';
 
-export interface LogoProps {}
+export interface LogoProps {
+  title?: boolean;
+}
 
-function Logo({}: LogoProps) {
+function Logo({ title = true }: LogoProps) {
   return (
     <div className='flex-center flex gap-8 text-18 font-bold text-neutral'>
       <Image src={IconPath} alt='Logo' width={32} height={32} />
-      소곤
+      {title && '소곤'}
     </div>
   );
 }
