@@ -1,9 +1,10 @@
 import cn from 'classnames';
 import Image from 'next/image';
 
-import { Button, LinkButton } from '@/shared/ui';
+import { LinkButton } from '@/shared/ui';
 
 import { useGetProfileQuery } from '../api';
+import ProfileButton from './ProfileButton';
 
 export interface ProfileProps {
   uid: string;
@@ -37,12 +38,12 @@ function Profile({ uid }: ProfileProps) {
                 {profileData?.bio}
               </p>
             </div>
-            <Button className='absolute right-24 top-24' skeleton={!profileData}>
-              친구 초대
-            </Button>
-            <LinkButton className='absolute -top-36 right-36' skeleton={!profileData}>
-              프로필 수정
-            </LinkButton>
+            <ProfileButton status={profileData?.status} />
+            {profileData?.status === 'self' && (
+              <LinkButton className='absolute -top-36 right-36' skeleton={!profileData}>
+                프로필 수정
+              </LinkButton>
+            )}
           </div>
         </div>
       </div>
