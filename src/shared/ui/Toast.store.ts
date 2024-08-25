@@ -1,25 +1,25 @@
 import { create } from 'zustand';
 
-type AlertType = 'error' | 'success' | 'info';
+type ToastType = 'error' | 'success' | 'info';
 
-export interface AlertContent {
-  type: AlertType;
+export interface ToastContent {
+  type: ToastType;
   message: string;
   persistent?: boolean;
 }
 
-export interface AlertData extends AlertContent {
+export interface ToastData extends ToastContent {
   id: number;
 }
 
-export type AlertStore = {
+export type ToastStore = {
   nextId: number;
-  queue: AlertData[];
-  push: (content: AlertContent) => void;
+  queue: ToastData[];
+  push: (content: ToastContent) => void;
   pop: (id: number) => void;
 };
 
-const useAlertStore = create<AlertStore>()((set) => ({
+const useToastStore = create<ToastStore>()((set) => ({
   nextId: 0,
   queue: [],
   push: (content) => {
@@ -35,4 +35,4 @@ const useAlertStore = create<AlertStore>()((set) => ({
   },
 }));
 
-export default useAlertStore;
+export default useToastStore;

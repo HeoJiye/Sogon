@@ -3,14 +3,14 @@ import { CheckIcon, InformationCircleIcon, XCircleIcon, XMarkIcon } from '@heroi
 import cn from 'classnames';
 import { useEffect } from 'react';
 
-interface AlertItemProps {
+interface ToastItemProps {
   type: 'error' | 'success' | 'info';
   message: string;
   persistent?: boolean;
   onClose: () => void;
 }
 
-function AlertItem({ type, message, persistent, onClose }: AlertItemProps) {
+function ToastItem({ type, message, persistent, onClose }: ToastItemProps) {
   useEffect(() => {
     if (!persistent) {
       setTimeout(() => {
@@ -36,4 +36,4 @@ function AlertItem({ type, message, persistent, onClose }: AlertItemProps) {
   );
 }
 
-export default AlertItem;
+export default ToastItem;

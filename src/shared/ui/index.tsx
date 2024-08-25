@@ -16,8 +16,8 @@ export { default as LinkButton } from './LinkButton';
 export * from './CheckBox';
 export { default as CheckBox } from './CheckBox';
 
-export * from './Alert';
-export { default as Alert } from './Alert';
+export * from './Toast';
+export { default as Alert } from './Toast';
 
 export * from './Textarea';
 export { default as Textarea } from './Textarea';
