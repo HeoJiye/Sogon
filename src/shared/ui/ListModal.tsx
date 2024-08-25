@@ -1,6 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/16/solid';
 import { InboxStackIcon } from '@heroicons/react/24/outline';
 
+import cn from 'classnames';
+
 import IconButton from './IconButton';
 import { Icon, IconType } from './ListModal.icon';
 
@@ -11,17 +13,27 @@ export interface ListModalProps {
   title: string;
   keys: string[];
   contents: React.ReactNode[];
+  position?: 'center' | 'header';
+  onClose?: () => void;
 }
 
-function ListModal({ icon, title, keys, contents }: ListModalProps) {
+function ListModal({ icon, title, keys, contents, position = 'center', onClose }: ListModalProps) {
   return (
-    <div className='modal modal-open !bg-transparent text-neutral'>
-      <div className='modal-box relative flex max-h-500 w-400 animate-modal-show flex-col gap-12 border'>
+    <div
+      className={cn('modal modal-open !bg-transparent text-neutral', {
+        'items-start justify-end': position === 'header',
+      })}
+    >
+      <div
+        className={cn('modal-box relative flex max-h-500 w-400 animate-modal-show flex-col gap-12 border', {
+          'right-36 top-64': position === 'header',
+        })}
+      >
         <div className='flex items-center justify-between pl-8 pr-8'>
           <div className='flex items-center gap-8 text-14 font-bold'>
             <Icon icon={icon} /> {title} ({contents.length})
           </div>
-          <IconButton icon={<XMarkIcon className='h-20 w-20 text-slate-500' />} />
+          <IconButton icon={<XMarkIcon className='h-20 w-20 text-slate-500' />} onClick={onClose} />
         </div>
         <hr />
         <div className='flex flex-col gap-4'>
