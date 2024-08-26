@@ -1,32 +1,31 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Alert from './Alert';
-import useAlertStore, { type AlertStore } from './Alert.store';
+import Toast from './Toast';
+import useToastStore, { type ToastStore } from './Toast.store';
 
 const meta = {
-  title: '공통 컴포넌트/Alert',
-  component: Alert,
+  title: '공통 컴포넌트/Toast',
+  component: Toast,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {},
   args: {},
-} satisfies Meta<typeof Alert>;
+} satisfies Meta<typeof Toast>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockAlertStore = (initialState: Partial<AlertStore>) => {
-  useAlertStore.setState(initialState);
+const mockToastStore = (initialState: Partial<ToastStore>) => {
+  useToastStore.setState(initialState);
 };
 
 export const Default: Story = {
   args: {},
   decorators: [
     (Story) => {
-      // 여기서 Zustand 스토어의 초기 상태를 설정합니다.
-      mockAlertStore({
+      mockToastStore({
         nextId: 4,
         queue: [
           { id: 0, type: 'success', message: 'This is a success alert!', persistent: false },

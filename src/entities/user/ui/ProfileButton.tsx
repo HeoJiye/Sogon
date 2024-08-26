@@ -1,4 +1,4 @@
-import alert from '@/shared/lib/alert';
+import toast from '@/shared/lib/toast';
 import { Button } from '@/shared/ui';
 
 import { UserReleationStatus } from '../model';
@@ -22,9 +22,9 @@ function ProfileButton({ status }: ProfileButtonProps) {
     const handleClick = async () => {
       try {
         await navigator.clipboard.writeText(window.location.href);
-        alert({ type: 'info', message: '프로필 링크가 클립보드에 복사되었습니다.' });
+        toast({ type: 'info', message: '프로필 링크가 클립보드에 복사되었습니다.' });
       } catch (err) {
-        alert({ type: 'error', message: '프로필 링크 복사가 실패했어요.' });
+        toast({ type: 'error', message: '프로필 링크 복사가 실패했어요.' });
       }
     };
 

@@ -1,6 +1,6 @@
-import alert from '@/shared/lib/alert';
 import axiosClient from '@/shared/lib/axiosClient';
 import { uploadImageFile } from '@/shared/lib/firebase.storage';
+import toast from '@/shared/lib/toast';
 
 import { ProfileFormSchema } from '../lib';
 import { EditProfileRequestDTO } from '../model';
@@ -26,7 +26,7 @@ export async function createProfile({ profileImage, nickname, bio }: ProfileForm
     } satisfies EditProfileRequestDTO);
     return true;
   } catch (error) {
-    alert({ type: 'error', message: JSON.stringify(error) });
+    toast({ type: 'error', message: JSON.stringify(error) });
     return false;
   }
 }

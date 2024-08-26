@@ -4,20 +4,27 @@ import { ButtonHTMLAttributes } from 'react';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   color?: 'default' | 'cancel' | 'disabled';
+  size?: 's' | 'm';
   skeleton?: boolean;
   children: React.ReactNode;
 }
 
-function Button({ className, color = 'default', skeleton, children, ...props }: ButtonProps) {
+function Button({ className, color = 'default', size = 'm', skeleton, children, ...props }: ButtonProps) {
   return (
     <button
       className={cn(
-        'btn min-w-120 rounded-lg pl-16 pr-16',
+        'btn rounded-lg',
         {
           'btn-neutral': color === 'default',
         },
         {
           'btn-disabled': color === 'disabled',
+        },
+        {
+          'h-40 min-h-40 min-w-100 text-14': size === 's',
+        },
+        {
+          'min-w-120 pl-16 pr-16 text-16': size === 'm',
         },
         {
           'hover:bg-neutral-focus animate-btn': !skeleton,
