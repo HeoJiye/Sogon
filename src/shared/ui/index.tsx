@@ -33,3 +33,6 @@ export { default as IconButton } from './IconButton';
 
 export * from './ListModal';
 export { default as ListModal } from './ListModal';
+
+export * from './Consent';
+export { default as Consent } from './Consent';
